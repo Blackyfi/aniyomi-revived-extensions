@@ -1,7 +1,7 @@
 ext {
     extName = 'Kingdom Dark Scan'
     extClass = '.KingdomDarkScan'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

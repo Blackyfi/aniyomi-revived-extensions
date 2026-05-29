@@ -1,7 +1,7 @@
 ext {
     extName = 'Crow Scans'
     extClass = '.CrowScans'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

@@ -1,7 +1,7 @@
 ext {
     extName = 'Chibis Scan'
     extClass = '.ChibisScan'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

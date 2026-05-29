@@ -1,7 +1,7 @@
 ext {
     extName = 'Soul Craft Fansub'
     extClass = '.SoulCraftFansub'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

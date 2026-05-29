@@ -1,7 +1,7 @@
 ext {
     extName = 'AntiPatreon Scan'
     extClass = '.AntipatreonScan'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

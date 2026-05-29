@@ -1,7 +1,7 @@
 ext {
     extName = 'Petrotechsociety'
     extClass = '.Petrotechsociety'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

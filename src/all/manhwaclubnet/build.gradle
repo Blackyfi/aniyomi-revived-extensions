@@ -1,7 +1,7 @@
 ext {
     extName = 'ManhwaClub.net'
     extClass = '.ManhwaClubNetFactory'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

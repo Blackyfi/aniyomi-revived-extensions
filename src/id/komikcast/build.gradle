@@ -1,13 +1,12 @@
 ext {
     extName = 'Komik Cast'
     extClass = '.KomikCast'
-    extVersionCode = 1
+    extVersionCode = 78
     isNsfw = false
 }
 
 apply from: "$rootDir/common.gradle"
 
 dependencies {
-    // Bundle the shared MangaThemesia theme into this extension's APK.
-    implementation project(':lib-multisrc:mangathemesia')
+    implementation project(':core')
 }

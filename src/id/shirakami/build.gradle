@@ -1,7 +1,7 @@
 ext {
     extName = 'Shirakami'
     extClass = '.Shirakami'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

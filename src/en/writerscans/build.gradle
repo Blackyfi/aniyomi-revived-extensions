@@ -1,7 +1,7 @@
 ext {
     extName = 'Writer Scans'
     extClass = '.WriterScans'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

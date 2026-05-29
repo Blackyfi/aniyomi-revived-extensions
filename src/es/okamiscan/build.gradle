@@ -1,7 +1,7 @@
 ext {
     extName = 'Okami.Scan'
     extClass = '.OkamiScan'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

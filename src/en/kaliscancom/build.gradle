@@ -1,7 +1,7 @@
 ext {
     extName = 'KaliScan.com'
     extClass = '.KaliScanCom'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

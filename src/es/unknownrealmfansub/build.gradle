@@ -1,7 +1,7 @@
 ext {
     extName = 'Virreinato de Unknown Realm Fansub'
     extClass = '.UnknownRealmFansub'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

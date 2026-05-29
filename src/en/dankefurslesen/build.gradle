@@ -1,7 +1,7 @@
 ext {
     extName = 'Danke fürs Lesen'
     extClass = '.DankeFursLesen'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 
