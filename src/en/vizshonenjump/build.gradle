@@ -8,5 +8,6 @@ ext {
 apply from: "$rootDir/common.gradle"
 
 dependencies {
+    implementation "com.drewnoakes:metadata-extractor:2.18.0"
     implementation project(':core')
 }
