@@ -1,7 +1,7 @@
 ext {
     extName = 'Arcura Fansub'
     extClass = '.ArcuraFansub'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

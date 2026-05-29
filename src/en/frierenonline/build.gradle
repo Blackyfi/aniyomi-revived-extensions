@@ -1,7 +1,7 @@
 ext {
     extName = 'Frieren Online'
     extClass = '.FrierenOnline'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

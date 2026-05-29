@@ -1,7 +1,7 @@
 ext {
     extName = 'FTV Hunter'
     extClass = '.FTVHunter'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

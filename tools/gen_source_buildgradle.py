@@ -54,6 +54,9 @@ for lang in sorted(os.listdir(SRC)):
             skipped += 1
             continue
         vc = field(text, "extVersionCode", quoted=False) or field(text, "overrideVersionCode", quoted=False) or "1"
+        # versionCode must be a positive integer (themed sources can yield 0 here).
+        if not vc.isdigit() or int(vc) < 1:
+            vc = "1"
         is_nsfw = (field(text, "isNsfw", quoted=False) or "false").strip()
         theme = field(text, "themePkg")
 

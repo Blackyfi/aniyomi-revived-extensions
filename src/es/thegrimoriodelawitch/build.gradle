@@ -1,7 +1,7 @@
 ext {
     extName = 'The grimorio de la witch'
     extClass = '.TheGrimorioDeLaWitch'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

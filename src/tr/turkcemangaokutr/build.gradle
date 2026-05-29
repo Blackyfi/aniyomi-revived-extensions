@@ -1,7 +1,7 @@
 ext {
     extName = 'Turkce Manga Oku TR'
     extClass = '.TurkceMangaOkuTr'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

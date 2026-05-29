@@ -1,7 +1,7 @@
 ext {
     extName = 'Crimson Scan'
     extClass = '.CrimsonScan'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

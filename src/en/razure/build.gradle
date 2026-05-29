@@ -1,7 +1,7 @@
 ext {
     extName = 'Razure'
     extClass = '.Razure'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

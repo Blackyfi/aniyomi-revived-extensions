@@ -1,7 +1,7 @@
 ext {
     extName = 'Grim Scans'
     extClass = '.GrimScans'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

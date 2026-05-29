@@ -1,7 +1,7 @@
 ext {
     extName = 'Asia Lotus'
     extClass = '.AsiaLotus'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

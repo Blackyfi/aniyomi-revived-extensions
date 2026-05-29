@@ -1,7 +1,7 @@
 ext {
     extName = 'FoolSlide Customizable'
     extClass = '.FoolSlideCustomizableFactory'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

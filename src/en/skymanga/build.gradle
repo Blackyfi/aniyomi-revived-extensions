@@ -1,7 +1,7 @@
 ext {
     extName = 'Sky Manga'
     extClass = '.SkyManga'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

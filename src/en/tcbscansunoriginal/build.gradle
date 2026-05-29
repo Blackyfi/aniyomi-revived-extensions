@@ -1,7 +1,7 @@
 ext {
     extName = 'TCB Scans (Unoriginal)'
     extClass = '.TCBScansUnoriginal'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

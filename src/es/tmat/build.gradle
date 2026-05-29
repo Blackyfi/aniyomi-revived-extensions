@@ -1,7 +1,7 @@
 ext {
     extName = 'TMAT'
     extClass = '.Tmat'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

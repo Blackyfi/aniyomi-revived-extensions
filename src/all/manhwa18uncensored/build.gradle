@@ -1,7 +1,7 @@
 ext {
     extName = 'Manhwa 18 Uncensored'
     extClass = '.Manhwa18UncensoredFactory'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

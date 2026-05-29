@@ -1,7 +1,7 @@
 ext {
     extName = 'Serein Scan'
     extClass = '.SereinScan'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

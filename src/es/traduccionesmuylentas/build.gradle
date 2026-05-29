@@ -1,7 +1,7 @@
 ext {
     extName = 'Traducciones Muy Lentas'
     extClass = '.TraduccionesMuyLentas'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 
