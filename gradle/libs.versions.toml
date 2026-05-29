@@ -1,0 +1,26 @@
+[versions]
+agp = "8.9.0"
+kotlin = "2.2.0"
+serialization = "1.9.0"
+okhttp = "5.0.0-alpha.14"
+jsoup = "1.19.1"
+# Loader-accepted lib versions (see the app's *ExtensionLoader.kt):
+#   manga: 1.4..1.5  (MangaExtensionLoader.kt:56-57)
+#   anime: 12..16    (AnimeExtensionLoader.kt:47-48)
+lib-manga = "1.5"
+lib-anime = "16"
+
+[libraries]
+# The host app provides these at RUNTIME, so extensions use `compileOnly`.
+# source-api must be published from your app fork. See SETUP.md for the JitPack/local-maven wiring.
+# Replace YOUR_GH_USER and the version with your app fork's coordinate + a commit/tag.
+source-api = { module = "com.github.YOUR_GH_USER.aniyomi-revived:source-api-android", version = "REPLACE_WITH_APP_COMMIT_OR_TAG" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
