@@ -1,0 +1,13 @@
+ext {
+    extName = 'Example Madara Site'
+    extClass = '.ExampleMadara'
+    extVersionCode = 1
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    // Bundle the shared Madara theme into this extension's APK.
+    implementation project(':lib-multisrc:madara')
+}
