@@ -6,3 +6,43 @@ ext {
 }
 
 apply from: "$rootDir/common.gradle"
+
+// ---- JVM unit tests (Task D1) ----
+// The source modules compile against source-api/core:common/okhttp/jsoup/serialization with
+// `compileOnly` (the host app provides them at runtime), so those artifacts are NOT on the unit
+// test runtime classpath. Re-declare them as `testImplementation` here so DTO parsing tests can run
+// on the plain host JVM. `isReturnDefaultValues` lets Android-stubbed calls return defaults instead
+// of throwing — pure kotlinx-serialization decoding never touches a real device.
+android {
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+        }
+    }
+    // The `main` source set declares `java.srcDirs = ['src']` (see common.gradle), which would
+    // otherwise greedily swallow any `src/test/...` tree into the MAIN compilation (where the test
+    // deps are only compileOnly). Keep unit tests in a sibling tree outside `src` and point the
+    // `test` source set at it explicitly.
+    sourceSets {
+        test {
+            java.srcDirs = ['javatest']
+            resources.srcDirs = ['testresources']
+        }
+    }
+}
+
+dependencies {
+    testImplementation libs.source.api
+    testImplementation libs.core.common
+    testImplementation libs.kotlinx.serialization.json
+    testImplementation libs.okhttp
+    testImplementation libs.jsoup
+    testImplementation 'junit:junit:4.13.2'
+}
+
+// core:common (pulled directly and transitively via source-api-android) declares a dependency on
+// Aniyomi:i18n — a host-only generated module that is NOT published to mavenLocal. The DTO parsing
+// tests never touch i18n, so drop it from the test classpaths to keep resolution fully offline.
+configurations.matching { it.name.toLowerCase().contains('unittest') }.configureEach {
+    exclude group: 'Aniyomi', module: 'i18n'
+}
