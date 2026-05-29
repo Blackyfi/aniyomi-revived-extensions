@@ -1,5 +1,14 @@
 name: Build & publish extensions repo
 
+# Audited, SHA-pinned build -> sign -> index -> publish flow.
+# Every action is pinned to a commit SHA (not a tag) per EXTENSIONS_REPO_STARTER.md
+# §6.6 ("Pin every GitHub Action to a commit SHA, not a tag"). The SHAs below are the
+# ones audited in SIGNING_RUNBOOK.md §4 (resolved against github.com on 2026-05-29):
+#   actions/checkout            v6.0.2  de0fac2e4500dabe0009e67214ff5f5447ce83dd
+#   actions/setup-java          v5.2.0  be666c2fcd27ec809703dec50e508c2fdc7f6654
+#   gradle/actions/setup-gradle v6.1.0  50e97c2cd7a37755bbfafc9c5b7cafaece252f6e
+#   peaceiris/actions-gh-pages  v4.1.0  84c30a85c19949d7eee79c4ff27748b70285e453
+
 on:
   push:
     branches: [main]
@@ -16,26 +25,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Pin every action to a commit SHA (not a tag) before enabling this workflow.
       - name: Checkout source (main)
-        uses: actions/checkout@v4   # TODO: replace with a pinned commit SHA
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4  # TODO: pin to SHA
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654  # v5.2.0
         with:
           distribution: temurin
           java-version: '17'
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4  # TODO: pin to SHA
+        uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e  # v6.1.0
 
-      # Reconstruct the signing keystore from a base64 CI secret.
+      # ---- Reconstruct the signing keystore from the base64 CI secret ----
       - name: Decode signing keystore
         env:
           KEYSTORE_B64: ${{ secrets.SIGNING_KEYSTORE_B64 }}
         run: printf '%s' "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/ci.keystore"
 
-      # Build + sign all source modules. Build-from-source ONLY — never accept prebuilt APKs.
+      # ---- Build & sign all source APKs (build-from-source ONLY; never accept prebuilt APKs) ----
+      # Maps the SIGNING_* secrets to the CI_* env vars common.gradle:48-51 reads.
       - name: Assemble release APKs
         env:
           CI_KEYSTORE_PATH: ${{ runner.temp }}/ci.keystore
@@ -44,14 +53,26 @@ jobs:
           CI_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
         run: ./gradlew assembleRelease --stacktrace
 
+      # ---- Collect built APKs into repo/apk (the dir the app serves as $repoUrl/apk/<apk>) ----
       - name: Collect APKs
         run: |
           mkdir -p repo/apk repo/icon
           find . -path '*/build/outputs/apk/release/*.apk' -exec cp {} repo/apk/ \;
 
-      # Compute the signing-cert SHA-256 (lowercase, no colons). This MUST equal repo.json's
-      # signingKeyFingerprint — it is what the app compares to mark the extension "trusted"
-      # (TrustMangaExtension.kt:14-18; MangaExtensionLoader.kt:408-422).
+      # ---- Extract each APK's launcher icon -> repo/icon/<pkg>.png ----
+      # The app fetches icons from "$repoUrl/icon/<pkg>.png" (MangaExtensionApi.kt:129).
+      # Runs after APKs are assembled/collected and before index generation. aapt2 comes
+      # from the SDK build-tools; install-android-sdk action isn't pinned, so we use the
+      # build-tools that setup-gradle / the Android image already provides via ANDROID_HOME.
+      # Pillow enables WEBP->PNG conversion for the rare WEBP-only launcher icon.
+      - name: Extract icons
+        run: |
+          pip install --quiet Pillow
+          python3 tools/extract_icons.py repo/apk repo/icon
+
+      # ---- Compute the signing-cert SHA-256 fingerprint (== repo.json value) ----
+      # lowercase, no colons — matches the loader's Hash.sha256 of the signing cert
+      # (MangaExtensionLoader.kt:408-422; trust check TrustMangaExtension.kt:14-18).
       - name: Compute signing fingerprint
         id: fp
         env:
@@ -66,7 +87,7 @@ jobs:
           echo "fingerprint=$FP" >> "$GITHUB_OUTPUT"
           echo "Signing fingerprint: $FP"
 
-      # Generate index.min.json (+ index.json) from the built APKs, and repo.json with the fingerprint.
+      # ---- Generate index.min.json (+ index.json) and repo.json with the live fingerprint ----
       - name: Generate repo index
         env:
           SIGNING_FINGERPRINT: ${{ steps.fp.outputs.fingerprint }}
@@ -75,8 +96,9 @@ jobs:
           sed "s/REPLACE_WITH_LOWERCASE_SHA256_OF_YOUR_SIGNING_CERT/${SIGNING_FINGERPRINT}/" \
             repo.json.template > repo/repo.json
 
+      # ---- Publish artifacts to the orphan 'repo' branch ----
       - name: Publish to 'repo' branch
-        uses: peaceiris/actions-gh-pages@v4   # TODO: pin to SHA
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453  # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./repo
