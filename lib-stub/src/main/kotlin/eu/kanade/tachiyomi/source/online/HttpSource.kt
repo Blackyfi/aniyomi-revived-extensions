@@ -57,7 +57,7 @@ abstract class HttpSource : CatalogueSource {
     protected open fun chapterListRequest(manga: SManga): Request = throw RuntimeException("stub")
     protected abstract fun chapterListParse(response: Response): List<SChapter>
 
-    protected abstract fun chapterPageParse(response: Response): SChapter
+    protected open fun chapterPageParse(response: Response): SChapter = throw UnsupportedOperationException()
 
     protected open fun pageListRequest(chapter: SChapter): Request = throw RuntimeException("stub")
     protected abstract fun pageListParse(response: Response): List<Page>
