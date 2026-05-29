@@ -1,0 +1,12 @@
+ext {
+    extName = 'Kiryuu'
+    extClass = '.Kiryuu'
+    extVersionCode = 49
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:natsuid')
+}

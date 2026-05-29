@@ -1,0 +1,12 @@
+ext {
+    extName = 'Genz Toons'
+    extClass = '.GenzToons'
+    extVersionCode = 32
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:keyoapp')
+}

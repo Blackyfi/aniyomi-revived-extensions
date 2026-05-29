@@ -1,0 +1,12 @@
+ext {
+    extName = 'Sagrado Imp\u00e9rio da Britannia'
+    extClass = '.ImperioDaBritannia'
+    extVersionCode = 53
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangotheme')
+}

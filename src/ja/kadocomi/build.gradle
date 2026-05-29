@@ -1,0 +1,12 @@
+ext {
+    extName = 'KadoComi'
+    extClass = '.KadoComi'
+    extVersionCode = 3
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Read Tokyo Ghoul Re & Tokyo Ghoul Manga Online'
+    extClass = '.ReadTokyoGhoulReTokyoGhoulMangaOnline'
+    extVersionCode = 4
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangacatalog')
+}

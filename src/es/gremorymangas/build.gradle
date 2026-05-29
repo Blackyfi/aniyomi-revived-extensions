@@ -1,0 +1,12 @@
+ext {
+    extName = 'Gremory Mangas'
+    extClass = '.GremoryMangas'
+    extVersionCode = 1
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

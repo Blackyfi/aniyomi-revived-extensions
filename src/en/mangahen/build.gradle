@@ -1,0 +1,8 @@
+ext {
+    extName = 'Gensura'
+    extClass = '.Gensura'
+    extVersionCode = 3
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"

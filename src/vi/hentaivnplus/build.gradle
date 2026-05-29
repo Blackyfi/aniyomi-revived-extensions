@@ -1,0 +1,13 @@
+ext {
+    extName = 'HentaiVN.plus'
+    extClass = '.HentaiVNPlus'
+    extVersionCode = 18
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+    implementation project(':core')
+}

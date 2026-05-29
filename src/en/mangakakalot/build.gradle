@@ -1,0 +1,13 @@
+ext {
+    extName = 'Mangakakalot'
+    extClass = '.Mangakakalot'
+    extVersionCode = 7
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangabox')
+    implementation project(':core')
+}

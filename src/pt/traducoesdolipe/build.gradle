@@ -1,0 +1,12 @@
+ext {
+    extName = 'Traduções do Lipe'
+    extClass = '.TraducoesDoLipe'
+    extVersionCode = 1
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:zeistmanga')
+}

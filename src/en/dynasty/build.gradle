@@ -1,0 +1,12 @@
+ext {
+    extName = 'Dynasty'
+    extClass = '.Dynasty'
+    extVersionCode = 29
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

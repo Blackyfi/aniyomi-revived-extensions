@@ -1,0 +1,13 @@
+ext {
+    extName = 'MangaLib'
+    extClass = '.MangaLib'
+    extVersionCode = 75
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:libgroup')
+    implementation project(':core')
+}

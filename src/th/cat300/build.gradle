@@ -1,0 +1,12 @@
+ext {
+    extName = 'Cat300'
+    extClass = '.Cat300'
+    extVersionCode = 3
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Philia Scans'
+    extClass = '.PhiliaScans'
+    extVersionCode = 54
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

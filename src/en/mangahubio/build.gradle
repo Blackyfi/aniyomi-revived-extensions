@@ -1,0 +1,12 @@
+ext {
+    extName = 'MangaHub'
+    extClass = '.MangaHubIo'
+    extVersionCode = 10
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangahub')
+}

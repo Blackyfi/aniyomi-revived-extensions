@@ -1,0 +1,14 @@
+ext {
+    extName = 'Mangas No Sekai'
+    extClass = '.MangasNoSekai'
+    extVersionCode = 18
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+    implementation project(':lib:synchrony')
+    implementation project(':core')
+}

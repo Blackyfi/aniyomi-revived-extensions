@@ -1,0 +1,12 @@
+ext {
+    extName = 'Manhwa XXL'
+    extClass = '.ManhwaXXL'
+    extVersionCode = 6
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

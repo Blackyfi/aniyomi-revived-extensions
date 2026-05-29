@@ -1,0 +1,14 @@
+ext {
+    extName = 'C'
+    extClass = '.Cmoa'
+    extVersionCode = 1
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:speedbinb')
+    implementation project(':lib:cookieinterceptor')
+    implementation project(':core')
+}

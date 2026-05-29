@@ -1,0 +1,12 @@
+ext {
+    extName = 'LANraragi'
+    extClass = '.LANraragiFactory'
+    extVersionCode = 21
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

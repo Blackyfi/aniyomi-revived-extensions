@@ -1,0 +1,13 @@
+ext {
+    extName = 'Hades Scans'
+    extClass = '.HadesScans'
+    extVersionCode = 0
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangathemesia')
+    implementation project(':core')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'DapRob'
+    extClass = '.DapRob'
+    extVersionCode = 0
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

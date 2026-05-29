@@ -1,0 +1,12 @@
+ext {
+    extName = 'Siyah Melek'
+    extClass = '.Siyahmelek'
+    extVersionCode = 60
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:initmanga')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Atsumaru'
+    extClass = '.Atsumaru'
+    extVersionCode = 17
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

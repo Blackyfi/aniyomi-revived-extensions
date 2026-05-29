@@ -1,0 +1,13 @@
+ext {
+    extName = 'Fairy Scans'
+    extClass = '.FairyScans'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangathemesia')
+    implementation project(':core')
+}

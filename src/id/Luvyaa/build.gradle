@@ -1,0 +1,13 @@
+ext {
+    extName = 'Luvyaa'
+    extClass = '.Luvyaa'
+    extVersionCode = 4
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangathemesia')
+    implementation project(':core')
+}

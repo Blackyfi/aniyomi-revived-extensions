@@ -1,0 +1,8 @@
+ext {
+    extName = 'UniComics'
+    extClass = '.UniComics'
+    extVersionCode = 9
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
