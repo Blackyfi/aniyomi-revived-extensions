@@ -17,13 +17,19 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    // AGP's `NullSafeMutableLiveData` detector crashes (AIOOBE) while analyzing the `:lib-stub`
+    // Kotlin sources during lint. Disable that single buggy detector.
+    lint {
+        disable += "NullSafeMutableLiveData"
+    }
 }
 
 dependencies {
     // The host app provides the source API + network helpers at runtime; jsoup/okhttp too.
     // Theme classes are bundled into each derived extension APK that depends on this module.
-    compileOnly(libs.source.api)
-    compileOnly(libs.core.common)
+    // `:lib-stub` mirrors the host source-api / core:common API surface so this compiles on CI
+    // without the app artifacts in mavenLocal; it is `compileOnly` so it is never bundled.
+    compileOnly(project(":lib-stub"))
     compileOnly(libs.okhttp)
     compileOnly(libs.jsoup)
     // MangaThemesia reader pages live in an inline `ts_reader.run({...})` JSON blob.
