@@ -13,6 +13,7 @@ import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import rx.Observable
 
 /**
  * Stub mirror of the host HttpSource. Public/protected signatures and open/abstract modifiers
@@ -39,6 +40,15 @@ abstract class HttpSource : CatalogueSource {
         get() = throw RuntimeException("stub")
 
     protected open fun headersBuilder(): Headers.Builder = throw RuntimeException("stub")
+
+    // Deprecated Rx API surface (host retains it). Sources override these; stubs throw.
+    open fun fetchPopularManga(page: Int): Observable<MangasPage> = throw RuntimeException("stub")
+    open fun fetchLatestUpdates(page: Int): Observable<MangasPage> = throw RuntimeException("stub")
+    open fun fetchSearchManga(page: Int, query: String, filters: FilterList): Observable<MangasPage> = throw RuntimeException("stub")
+    open fun fetchMangaDetails(manga: SManga): Observable<SManga> = throw RuntimeException("stub")
+    open fun fetchChapterList(manga: SManga): Observable<List<SChapter>> = throw RuntimeException("stub")
+    open fun fetchPageList(chapter: SChapter): Observable<List<Page>> = throw RuntimeException("stub")
+    open fun fetchImageUrl(page: Page): Observable<String> = throw RuntimeException("stub")
 
     override fun toString(): String = throw RuntimeException("stub")
 

@@ -44,4 +44,7 @@ dependencies {
     compileOnly(libs.jsoup)
     // androidx.preference provides PreferenceScreen, referenced by ConfigurableSource.
     compileOnly("androidx.preference:preference:1.2.1")
+    // RxJava 1.x — the host source-api retains the deprecated Rx API (fetch*/asObservableSuccess
+    // return rx.Observable); many ported sources still use it. compileOnly — host provides at runtime.
+    compileOnly("io.reactivex:rxjava:1.3.8")
 }
