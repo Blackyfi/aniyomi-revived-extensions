@@ -22,5 +22,5 @@ dependencies {
     compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
     compileOnly(libs.okhttp)
     compileOnly(libs.jsoup)
-    implementation(project(":core"))
+    api(project(":core"))
 }

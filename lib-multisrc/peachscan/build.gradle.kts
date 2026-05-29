@@ -22,5 +22,5 @@ dependencies {
     compileOnly(libs.jsoup)
     compileOnly(libs.kotlinx.serialization.json)
     compileOnly("io.reactivex:rxjava:1.3.8")
-    implementation(project(":lib:zipinterceptor"))
+    api(project(":lib:zipinterceptor"))
 }

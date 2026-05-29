@@ -17,5 +17,5 @@ dependencies {
     compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
     compileOnly(libs.okhttp)
     compileOnly(libs.jsoup)
-    implementation(project(":lib:cookieinterceptor"))
+    api(project(":lib:cookieinterceptor"))
 }

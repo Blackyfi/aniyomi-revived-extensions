@@ -31,5 +31,5 @@ dependencies {
     compileOnly(libs.jsoup)
     compileOnly(libs.kotlinx.serialization.json)
 
-    implementation(project(":core"))
+    api(project(":core"))
 }

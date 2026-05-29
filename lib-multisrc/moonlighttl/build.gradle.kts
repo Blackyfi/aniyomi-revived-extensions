@@ -22,6 +22,6 @@ dependencies {
     compileOnly(libs.jsoup)
     compileOnly(libs.kotlinx.serialization.json)
     compileOnly("io.reactivex:rxjava:1.3.8")
-    implementation(project(":core"))
-    implementation(project(":lib:i18n"))
+    api(project(":core"))
+    api(project(":lib:i18n"))
 }
