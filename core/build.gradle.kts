@@ -30,4 +30,6 @@ dependencies {
     compileOnly(libs.okhttp)
     compileOnly(libs.jsoup)
     compileOnly(libs.kotlinx.serialization.json)
+    // Protobuf.kt uses kotlinx-serialization-protobuf; sources that consume it bundle it themselves.
+    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.9.0")
 }
