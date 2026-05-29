@@ -10,6 +10,7 @@ open class Page(
     val index: Int,
     val url: String = "",
     var imageUrl: String? = null,
+    var uri: android.net.Uri? = null,
 ) {
     val number: Int
         get() = index + 1

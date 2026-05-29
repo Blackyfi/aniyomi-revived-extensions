@@ -29,6 +29,6 @@ dependencies {
     compileOnly(libs.okhttp)
     compileOnly(libs.jsoup)
 
-    implementation(project(":core"))
+    api(project(":core"))
     compileOnly("io.reactivex:rxjava:1.3.8")
 }

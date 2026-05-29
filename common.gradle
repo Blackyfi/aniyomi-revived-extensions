@@ -35,7 +35,11 @@ android {
     kotlinOptions {
         jvmTarget = "17"
         // parseAs is declared `context(Json)` in the host's core:common.
-        freeCompilerArgs += ["-Xcontext-receivers"]
+        freeCompilerArgs += ["-Xcontext-receivers", "-opt-in=kotlin.time.ExperimentalTime"]
+    }
+    buildFeatures {
+        // Some sources read their generated BuildConfig (e.g. version name).
+        buildConfig true
     }
 
     sourceSets {

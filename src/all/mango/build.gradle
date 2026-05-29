@@ -8,5 +8,6 @@ ext {
 apply from: "$rootDir/common.gradle"
 
 dependencies {
+    implementation "info.debatty:java-string-similarity:2.0.0"
     implementation project(':core')
 }

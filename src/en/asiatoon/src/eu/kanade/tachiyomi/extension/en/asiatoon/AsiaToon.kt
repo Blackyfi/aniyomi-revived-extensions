@@ -211,11 +211,13 @@ class AsiaToon : HttpSource() {
         else -> absUrl("src")
     }
 
-    private fun SimpleDateFormat.tryParse(date: String?): Long = try {
+    private fun SimpleDateFormat.tryParse(date: String?): Long {
         if (date == null) return 0L
-        parse(date)?.time ?: 0L
-    } catch (_: Exception) {
-        0L
+        return try {
+            parse(date)?.time ?: 0L
+        } catch (_: Exception) {
+            0L
+        }
     }
 
     private companion object {

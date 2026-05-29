@@ -14,11 +14,11 @@ android {
 }
 dependencies {
     compileOnly(project(":lib-stub"))
-    implementation(project(":core"))
+    api(project(":core"))
     compileOnly("androidx.preference:preference:1.2.1")
     compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
     compileOnly(libs.okhttp)
     compileOnly(libs.jsoup)
     compileOnly(libs.kotlinx.serialization.json)
-    implementation(project(":lib:unpacker"))
+    api(project(":lib:unpacker"))
 }
