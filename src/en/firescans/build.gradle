@@ -1,0 +1,13 @@
+ext {
+    extName = 'Firescans'
+    extClass = '.Firescans'
+    extVersionCode = 3
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+    implementation project(':core')
+}

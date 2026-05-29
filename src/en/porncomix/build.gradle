@@ -1,0 +1,8 @@
+ext {
+    extName = 'PornComix'
+    extClass = '.PornComix'
+    extVersionCode = 49
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"

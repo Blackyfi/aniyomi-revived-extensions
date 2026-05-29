@@ -1,0 +1,12 @@
+ext {
+    extName = 'Diva Scans'
+    extClass = '.DivaScans'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:iken')
+}

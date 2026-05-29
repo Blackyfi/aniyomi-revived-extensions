@@ -1,0 +1,12 @@
+ext {
+    extName = 'Mangakawaii'
+    extClass = '.MangaKawaii'
+    extVersionCode = 38
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

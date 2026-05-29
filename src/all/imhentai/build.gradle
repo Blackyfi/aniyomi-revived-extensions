@@ -1,0 +1,12 @@
+ext {
+    extName = 'IMHentai'
+    extClass = '.IMHentaiFactory'
+    extVersionCode = 15
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:galleryadults')
+}

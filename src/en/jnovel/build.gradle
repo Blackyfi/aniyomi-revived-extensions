@@ -1,0 +1,13 @@
+ext {
+    extName = 'J-Novel'
+    extClass = '.JNovel'
+    extVersionCode = 2
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+    implementation "org.kotlincrypto.hash:blake2:0.8.0"
+}

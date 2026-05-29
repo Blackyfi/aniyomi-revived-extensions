@@ -1,0 +1,12 @@
+ext {
+    extName = 'Kaizen Translations'
+    extClass = '.KaizenTranslations'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:lectormoe')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Vortex Scans'
+    extClass = '.VortexScans'
+    extVersionCode = 61
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

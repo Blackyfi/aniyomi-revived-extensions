@@ -1,0 +1,12 @@
+ext {
+    extName = 'Comics Land'
+    extClass = '.ComicsLand'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangathemesia')
+}

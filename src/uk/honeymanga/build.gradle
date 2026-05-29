@@ -1,0 +1,12 @@
+ext {
+    extName = 'HoneyManga'
+    extClass = '.HoneyManga'
+    extVersionCode = 6
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Sekte Komik'
+    extClass = '.SekteKomik'
+    extVersionCode = 26
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:colorlibanime')
+}

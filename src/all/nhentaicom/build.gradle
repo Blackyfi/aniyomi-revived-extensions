@@ -1,0 +1,12 @@
+ext {
+    extName = 'nHentai.com (unoriginal)'
+    extClass = '.NHentaiComFactory'
+    extVersionCode = 5
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:hentaihand')
+}

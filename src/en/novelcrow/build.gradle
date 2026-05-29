@@ -1,0 +1,12 @@
+ext {
+    extName = 'NovelCrow'
+    extClass = '.NovelCrow'
+    extVersionCode = 1
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

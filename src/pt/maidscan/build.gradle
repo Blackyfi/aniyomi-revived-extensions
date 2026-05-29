@@ -1,0 +1,12 @@
+ext {
+    extName = 'Maid Scan'
+    extClass = '.MaidScan'
+    extVersionCode = 51
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:greenshit')
+}

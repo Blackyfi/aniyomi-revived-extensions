@@ -1,0 +1,12 @@
+ext {
+    extName = 'XOXO Comics'
+    extClass = '.XoxoComics'
+    extVersionCode = 5
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:wpcomics')
+}

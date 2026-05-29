@@ -1,0 +1,12 @@
+ext {
+    extName = 'Hachiraw'
+    extClass = '.Hachiraw'
+    extVersionCode = 3
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

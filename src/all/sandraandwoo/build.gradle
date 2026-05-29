@@ -1,0 +1,12 @@
+ext {
+    extName = 'Sandra and Woo'
+    extClass = '.SandraAndWooFactory'
+    extVersionCode = 3
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

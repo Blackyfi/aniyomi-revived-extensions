@@ -1,0 +1,13 @@
+ext {
+    extName = 'RawINU'
+    extClass = '.RawINU'
+    extVersionCode = 3
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:fmreader')
+    implementation project(':lib:cookieinterceptor')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Happymh'
+    extClass = '.Happymh'
+    extVersionCode = 22
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

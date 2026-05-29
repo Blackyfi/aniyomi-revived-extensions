@@ -1,0 +1,13 @@
+ext {
+    extName = 'Jmanga'
+    extClass = '.Jmanga'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangareader')
+    implementation project(':core')
+}

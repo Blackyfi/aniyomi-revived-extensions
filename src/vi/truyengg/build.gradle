@@ -1,0 +1,12 @@
+ext {
+    extName = 'FoxTruyen'
+    extClass = '.TruyenGG'
+    extVersionCode = 11
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

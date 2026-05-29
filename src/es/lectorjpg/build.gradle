@@ -1,0 +1,12 @@
+ext {
+    extName = 'LectorJPG'
+    extClass = '.LectorJpg'
+    extVersionCode = 46
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

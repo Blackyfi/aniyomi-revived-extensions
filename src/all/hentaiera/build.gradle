@@ -1,0 +1,12 @@
+ext {
+    extName = 'HentaiEra'
+    extClass = '.HentaiEraFactory'
+    extVersionCode = 2
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:galleryadults')
+}

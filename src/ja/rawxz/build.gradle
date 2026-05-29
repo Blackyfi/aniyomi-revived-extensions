@@ -1,0 +1,8 @@
+ext {
+    extName = 'RawZO'
+    extClass = '.RawXZ'
+    extVersionCode = 50
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"

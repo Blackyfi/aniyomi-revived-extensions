@@ -1,0 +1,12 @@
+ext {
+    extName = 'FTV Hunter'
+    extClass = '.FTVHunter'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:masonry')
+}

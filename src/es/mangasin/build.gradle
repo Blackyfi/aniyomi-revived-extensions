@@ -1,0 +1,15 @@
+ext {
+    extName = 'Mangas.in'
+    extClass = '.MangasIn'
+    extVersionCode = 7
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mmrcms')
+    implementation project(':lib:synchrony')
+    implementation project(':lib:cryptoaes')
+    implementation project(':core')
+}

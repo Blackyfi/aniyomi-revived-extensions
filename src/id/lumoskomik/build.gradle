@@ -1,0 +1,12 @@
+ext {
+    extName = 'LumosKomik'
+    extClass = '.LumosKomik'
+    extVersionCode = 4
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

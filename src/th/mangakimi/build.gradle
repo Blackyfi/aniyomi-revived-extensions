@@ -1,0 +1,14 @@
+ext {
+    extName = 'MangaKimi'
+    extClass = '.MangaKimi'
+    extVersionCode = 3
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangathemesia')
+    implementation project(':lib:unpacker')
+    implementation project(':core')
+}

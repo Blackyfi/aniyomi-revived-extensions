@@ -1,0 +1,13 @@
+ext {
+    extName = 'Gaugau Monster Plus'
+    extClass = '.GaugauMonsterPlus'
+    extVersionCode = 3
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:speedbinb')
+    implementation project(':core')
+}

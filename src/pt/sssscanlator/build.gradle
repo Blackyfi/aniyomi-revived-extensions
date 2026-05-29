@@ -1,0 +1,12 @@
+ext {
+    extName = 'Yomu Comics'
+    extClass = '.YomuComics'
+    extVersionCode = 45
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

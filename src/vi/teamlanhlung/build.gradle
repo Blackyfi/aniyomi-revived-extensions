@@ -1,0 +1,12 @@
+ext {
+    extName = 'Team Lanh Lung'
+    extClass = '.TeamLanhLung'
+    extVersionCode = 30
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

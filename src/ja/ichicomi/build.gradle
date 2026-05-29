@@ -1,0 +1,13 @@
+ext {
+    extName = 'Ichicomi'
+    extClass = '.Ichicomi'
+    extVersionCode = 0
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:gigaviewer')
+    implementation project(':core')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Siren Scans'
+    extClass = '.SirenScans'
+    extVersionCode = 0
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:keyoapp')
+}

@@ -1,0 +1,13 @@
+ext {
+    extName = 'TruyenVN'
+    extClass = '.TruyenVN'
+    extVersionCode = 17
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+    implementation project(':core')
+}

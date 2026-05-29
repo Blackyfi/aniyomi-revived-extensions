@@ -1,0 +1,8 @@
+ext {
+    extName = 'keenspot'
+    extClass = '.KeenspotFactory'
+    extVersionCode = 3
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
