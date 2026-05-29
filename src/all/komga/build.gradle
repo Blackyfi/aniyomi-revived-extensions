@@ -1,0 +1,8 @@
+ext {
+    extName = 'Komga'
+    extClass = '.Komga'   // resolves to eu.kanade.tachiyomi.extension.all.komga.Komga
+    extVersionCode = 1    // bump on EVERY change → versionName becomes 1.5.<this>
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
