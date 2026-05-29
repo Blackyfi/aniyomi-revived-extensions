@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Shared manifest for every manga source module. The per-source values are filled by
+  manifestPlaceholders from common.gradle. Least privilege: no permissions, no activities.
+
+  The loader filters APKs on the `tachiyomi.extension` <uses-feature> (MangaExtensionLoader.kt:52),
+  reads the source class list from `tachiyomi.extension.class` (:53), and the nsfw flag from
+  `tachiyomi.extension.nsfw` (:55). Anime sources use the `tachiyomi.animeextension*` keys instead.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature
+        android:name="tachiyomi.extension"
+        android:required="false" />
+
+    <application android:label="${appName}">
+        <meta-data
+            android:name="tachiyomi.extension.class"
+            android:value="${extClass}" />
+        <meta-data
+            android:name="tachiyomi.extension.nsfw"
+            android:value="${nsfw}" />
+    </application>
+</manifest>

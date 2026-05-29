@@ -1,0 +1,8 @@
+{
+  "meta": {
+    "name": "Aniyomi Revived Extensions",
+    "shortName": "arext",
+    "website": "https://github.com/YOUR_GH_USER/aniyomi-revived-extensions",
+    "signingKeyFingerprint": "REPLACE_WITH_LOWERCASE_SHA256_OF_YOUR_SIGNING_CERT"
+  }
+}

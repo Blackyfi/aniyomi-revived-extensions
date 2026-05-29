@@ -1,0 +1,79 @@
+// Convention script applied by every manga source module via `apply from: "$rootDir/common.gradle"`.
+// It turns the four `ext { }` declarations into a loader-valid APK:
+//   - versionName = "<libVersion>.<extVersionCode>"  (the loader parses libVersion via
+//     versionName.substringBeforeLast('.').toDouble() and requires 1.4..1.5; MangaExtensionLoader.kt:56-57,264)
+//   - the tachiyomi.extension feature flag + class/nsfw metadata (via the shared AndroidManifest.xml)
+//   - a release signing config sourced from CI env (the cert SHA-256 MUST equal repo.json's fingerprint)
+
+apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+
+assert ext.has('extName')
+assert ext.has('extClass')
+assert ext.has('extVersionCode')
+
+// Manga lib version; loader accepts 1.4..1.5 (MangaExtensionLoader.kt:56-57). Override per-module if needed.
+def libVersion = ext.has('libVersion') ? ext.libVersion : '1.5'
+
+android {
+    compileSdk 35
+    namespace "eu.kanade.tachiyomi.extension"
+
+    sourceSets {
+        main {
+            manifest.srcFile "$rootDir/AndroidManifest.xml"
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+
+    defaultConfig {
+        minSdk 26
+        targetSdk 34
+        applicationId "eu.kanade.tachiyomi.extension.${project.parent.name}.${project.name}"
+        versionCode ext.extVersionCode
+        versionName "${libVersion}.${ext.extVersionCode}"
+        // The manga loader strips the "Tachiyomi: " label prefix (MangaExtensionLoader.kt:252).
+        manifestPlaceholders = [
+            appName : "Tachiyomi: ${ext.extName}",
+            extClass: ext.extClass,
+            nsfw    : (ext.has('isNsfw') && ext.isNsfw) ? 1 : 0,
+        ]
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(System.getenv('CI_KEYSTORE_PATH') ?: "$rootDir/ci.keystore")
+            storePassword System.getenv('CI_KEYSTORE_PASSWORD')
+            keyAlias System.getenv('CI_KEY_ALIAS')
+            keyPassword System.getenv('CI_KEY_PASSWORD')
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    // Keep the APK lean and reproducible.
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Provided by the host app at runtime — compile against, never bundle.
+    compileOnly libs.source.api
+    compileOnly libs.kotlinx.serialization.json
+    compileOnly libs.okhttp
+    compileOnly libs.jsoup
+}
