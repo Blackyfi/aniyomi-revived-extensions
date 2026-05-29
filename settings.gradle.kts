@@ -23,6 +23,7 @@ rootProject.name = "aniyomi-revived-extensions"
 
 // Shared theme base classes (lib-multisrc/<theme>)
 include(":lib-multisrc:madara")
+include(":lib-multisrc:mangathemesia")
 
 // Per-source modules, auto-discovered: src/<lang>/<name>
 rootDir.resolve("src").listFiles { f -> f.isDirectory }?.sorted()?.forEach { langDir ->
