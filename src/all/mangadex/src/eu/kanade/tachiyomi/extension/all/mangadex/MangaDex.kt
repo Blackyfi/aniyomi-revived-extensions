@@ -152,6 +152,10 @@ open class MangaDex(override val lang: String, private val dexLang: String) : Ht
         }
     }
 
+    // chapterPageParse is abstract on HttpSource (source-api HttpSource.kt:287) even for JSON
+    // sources; MangaDex builds its chapter list from the feed JSON, so this is never invoked.
+    override fun chapterPageParse(response: Response): SChapter = throw UnsupportedOperationException()
+
     // Pages already carry an absolute imageUrl, so imageUrlParse is never called.
     override fun imageUrlParse(response: Response): String = throw UnsupportedOperationException()
 

@@ -9,11 +9,20 @@ android {
     defaultConfig {
         minSdk = 26
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {
-    // The host app provides the source API at runtime; jsoup is also host-provided.
+    // The host app provides the source API + network helpers at runtime; jsoup/okhttp too.
     // Theme classes are bundled into each derived extension APK that depends on this module.
     compileOnly(libs.source.api)
+    compileOnly(libs.core.common)
+    compileOnly(libs.okhttp)
     compileOnly(libs.jsoup)
 }
