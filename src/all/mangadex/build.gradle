@@ -1,0 +1,8 @@
+ext {
+    extName = 'MangaDex'
+    extClass = '.MangaDexFactory'   // resolves to eu.kanade.tachiyomi.extension.all.mangadex.MangaDexFactory
+    extVersionCode = 1              // bump on EVERY change → versionName becomes 1.5.<this>
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"

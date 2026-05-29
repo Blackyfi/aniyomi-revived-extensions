@@ -1,0 +1,84 @@
+name: Build & publish extensions repo
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # least privilege: only enough to push the generated 'repo' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Pin every action to a commit SHA (not a tag) before enabling this workflow.
+      - name: Checkout source (main)
+        uses: actions/checkout@v4   # TODO: replace with a pinned commit SHA
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4  # TODO: pin to SHA
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4  # TODO: pin to SHA
+
+      # Reconstruct the signing keystore from a base64 CI secret.
+      - name: Decode signing keystore
+        env:
+          KEYSTORE_B64: ${{ secrets.SIGNING_KEYSTORE_B64 }}
+        run: printf '%s' "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/ci.keystore"
+
+      # Build + sign all source modules. Build-from-source ONLY — never accept prebuilt APKs.
+      - name: Assemble release APKs
+        env:
+          CI_KEYSTORE_PATH: ${{ runner.temp }}/ci.keystore
+          CI_KEYSTORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          CI_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          CI_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Collect APKs
+        run: |
+          mkdir -p repo/apk repo/icon
+          find . -path '*/build/outputs/apk/release/*.apk' -exec cp {} repo/apk/ \;
+
+      # Compute the signing-cert SHA-256 (lowercase, no colons). This MUST equal repo.json's
+      # signingKeyFingerprint — it is what the app compares to mark the extension "trusted"
+      # (TrustMangaExtension.kt:14-18; MangaExtensionLoader.kt:408-422).
+      - name: Compute signing fingerprint
+        id: fp
+        env:
+          CI_KEYSTORE_PATH: ${{ runner.temp }}/ci.keystore
+          CI_KEYSTORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          CI_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+        run: |
+          FP=$(keytool -list -v -keystore "$CI_KEYSTORE_PATH" \
+                -alias "$CI_KEY_ALIAS" -storepass "$CI_KEYSTORE_PASSWORD" \
+              | grep -A1 'SHA256:' | grep -oE '([0-9A-F]{2}:){31}[0-9A-F]{2}' \
+              | tr -d ':' | tr 'A-F' 'a-f' | head -n1)
+          echo "fingerprint=$FP" >> "$GITHUB_OUTPUT"
+          echo "Signing fingerprint: $FP"
+
+      # Generate index.min.json (+ index.json) from the built APKs, and repo.json with the fingerprint.
+      - name: Generate repo index
+        env:
+          SIGNING_FINGERPRINT: ${{ steps.fp.outputs.fingerprint }}
+        run: |
+          python3 tools/create_repo.py repo/apk repo/index.json repo/index.min.json
+          sed "s/REPLACE_WITH_LOWERCASE_SHA256_OF_YOUR_SIGNING_CERT/${SIGNING_FINGERPRINT}/" \
+            repo.json.template > repo/repo.json
+
+      - name: Publish to 'repo' branch
+        uses: peaceiris/actions-gh-pages@v4   # TODO: pin to SHA
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./repo
+          publish_branch: repo
+          force_orphan: true
