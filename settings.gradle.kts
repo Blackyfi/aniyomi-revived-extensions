@@ -11,6 +11,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Local Maven (SETUP.md Option B): consumes :source-api published via
+        // `./gradlew :source-api:publishToMavenLocal` from the app tree.
+        mavenLocal()
         // For consuming your own published source-api (see SETUP.md).
         maven(url = "https://jitpack.io")
     }

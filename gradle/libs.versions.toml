@@ -14,7 +14,10 @@ lib-anime = "16"
 # The host app provides these at RUNTIME, so extensions use `compileOnly`.
 # source-api must be published from your app fork. See SETUP.md for the JitPack/local-maven wiring.
 # Replace YOUR_GH_USER and the version with your app fork's coordinate + a commit/tag.
-source-api = { module = "com.github.YOUR_GH_USER.aniyomi-revived:source-api-android", version = "REPLACE_WITH_APP_COMMIT_OR_TAG" }
+source-api = { module = "com.github.nicolasticot.aniyomi-revived:source-api-android", version = "27.1.12297006" }
+# Host network helpers (GET/POST/parseAs/rateLimit/NetworkHelper) live in :core:common, published
+# from the app tree to mavenLocal alongside source-api. compileOnly — the host provides it at runtime.
+core-common = { module = "Aniyomi.core:common", version = "27.1.12297006" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }

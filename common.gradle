@@ -13,12 +13,30 @@ assert ext.has('extName')
 assert ext.has('extClass')
 assert ext.has('extVersionCode')
 
+// Capture the per-module ext properties into locals BEFORE the android {} block. Inside the
+// AGP `defaultConfig { }` closure the delegate is the defaultConfig (not the project), so a bare
+// `ext.extVersionCode` would resolve against the wrong extra-properties extension and fail.
+def extName = ext.extName
+def extClass = ext.extClass
+def extVersionCode = ext.extVersionCode
+def isNsfw = ext.has('isNsfw') && ext.isNsfw
+
 // Manga lib version; loader accepts 1.4..1.5 (MangaExtensionLoader.kt:56-57). Override per-module if needed.
 def libVersion = ext.has('libVersion') ? ext.libVersion : '1.5'
 
 android {
     compileSdk 35
     namespace "eu.kanade.tachiyomi.extension"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+        // parseAs is declared `context(Json)` in the host's core:common.
+        freeCompilerArgs += ["-Xcontext-receivers"]
+    }
 
     sourceSets {
         main {
@@ -33,13 +51,13 @@ android {
         minSdk 26
         targetSdk 34
         applicationId "eu.kanade.tachiyomi.extension.${project.parent.name}.${project.name}"
-        versionCode ext.extVersionCode
-        versionName "${libVersion}.${ext.extVersionCode}"
+        versionCode extVersionCode
+        versionName "${libVersion}.${extVersionCode}"
         // The manga loader strips the "Tachiyomi: " label prefix (MangaExtensionLoader.kt:252).
         manifestPlaceholders = [
-            appName : "Tachiyomi: ${ext.extName}",
-            extClass: ext.extClass,
-            nsfw    : (ext.has('isNsfw') && ext.isNsfw) ? 1 : 0,
+            appName : "Tachiyomi: ${extName}",
+            extClass: extClass,
+            nsfw    : isNsfw ? 1 : 0,
         ]
     }
 
@@ -67,12 +85,18 @@ android {
 }
 
 repositories {
+    // mavenLocal first so the host source-api / core:common published from the app tree resolve.
+    mavenLocal()
+    google()
     mavenCentral()
+    // injekt (and other app deps) are published on JitPack.
+    maven { url "https://www.jitpack.io" }
 }
 
 dependencies {
     // Provided by the host app at runtime — compile against, never bundle.
     compileOnly libs.source.api
+    compileOnly libs.core.common
     compileOnly libs.kotlinx.serialization.json
     compileOnly libs.okhttp
     compileOnly libs.jsoup
