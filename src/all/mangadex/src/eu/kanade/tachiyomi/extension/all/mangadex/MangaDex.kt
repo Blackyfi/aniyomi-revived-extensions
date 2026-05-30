@@ -1,5 +1,8 @@
 package eu.kanade.tachiyomi.extension.all.mangadex
 
+import android.app.Application
+import androidx.preference.ListPreference
+import androidx.preference.PreferenceScreen
 import eu.kanade.tachiyomi.extension.all.mangadex.dto.AtHomeDto
 import eu.kanade.tachiyomi.extension.all.mangadex.dto.ChapterListDto
 import eu.kanade.tachiyomi.extension.all.mangadex.dto.MangaDataDto
@@ -8,6 +11,8 @@ import eu.kanade.tachiyomi.extension.all.mangadex.dto.MangaWrapperDto
 import eu.kanade.tachiyomi.network.GET
 import eu.kanade.tachiyomi.network.interceptor.rateLimit
 import eu.kanade.tachiyomi.network.parseAs
+import eu.kanade.tachiyomi.source.ConfigurableSource
+import eu.kanade.tachiyomi.source.model.Filter
 import eu.kanade.tachiyomi.source.model.FilterList
 import eu.kanade.tachiyomi.source.model.MangasPage
 import eu.kanade.tachiyomi.source.model.Page
@@ -19,6 +24,8 @@ import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import uy.kohesive.injekt.Injekt
+import uy.kohesive.injekt.api.get
 import uy.kohesive.injekt.injectLazy
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -28,9 +35,12 @@ import java.util.TimeZone
  * MangaDex — a JSON-API source. Reference implementation: extend [HttpSource] (NOT the deprecated
  * ParsedHttpSource) and parse with the host's `Response.parseAs<T>()`. No CSS selectors to break.
  *
- * One APK, many language variants — see [MangaDexFactory].
+ * One APK, many language variants — see [MangaDexFactory]. Implements [ConfigurableSource] so each
+ * per-language source carries its own cover-quality preference (the preference store is keyed on the
+ * source id via [getSourcePreferences], and ids are per-language; see HttpSource.kt:57,87-91).
  */
-open class MangaDex(override val lang: String, private val dexLang: String) : HttpSource() {
+open class MangaDex(override val lang: String, private val dexLang: String) :
+    HttpSource(), ConfigurableSource {
 
     override val name = "MangaDex"
 
@@ -43,10 +53,33 @@ open class MangaDex(override val lang: String, private val dexLang: String) : Ht
 
     private val json: Json by injectLazy()
 
+    // Per-source preference store (keyed on the source id, which differs per language).
+    private val preferences by lazy {
+        Injekt.get<Application>().getSharedPreferences("source_$id", android.content.Context.MODE_PRIVATE)
+    }
+
     // MangaDex publishes a ~5 req/s limit; honor it via the host rate-limit interceptor.
     override val client: OkHttpClient = network.client.newBuilder()
         .rateLimit(permits = 5)
         .build()
+
+    // ---- Preferences ----
+    override fun setupPreferenceScreen(screen: PreferenceScreen) {
+        val coverPref = ListPreference(screen.context).apply {
+            key = COVER_QUALITY_PREF
+            title = "Cover quality"
+            // Entry order maps 1:1 to entryValues; values are CDN filename suffixes (literals).
+            entries = arrayOf("Original", "Medium (512px)", "Low (256px)")
+            entryValues = arrayOf(COVER_ORIGINAL, COVER_512, COVER_256)
+            setDefaultValue(COVER_512)
+            summary = "%s"
+        }
+        screen.addPreference(coverPref)
+    }
+
+    // Returns one of the literal CDN suffixes: "" / ".512.jpg" / ".256.jpg".
+    private fun coverQualitySuffix(): String =
+        preferences.getString(COVER_QUALITY_PREF, COVER_512) ?: COVER_512
 
     // ---- Popular ----
     override fun popularMangaRequest(page: Int): Request {
@@ -82,16 +115,73 @@ open class MangaDex(override val lang: String, private val dexLang: String) : Ht
 
     // ---- Search ----
     override fun searchMangaRequest(page: Int, query: String, filters: FilterList): Request {
-        val url = "$apiUrl/manga".toHttpUrl().newBuilder()
-            .addQueryParameter("title", query)
+        val builder = "$apiUrl/manga".toHttpUrl().newBuilder()
             .addQueryParameter("limit", LIMIT.toString())
             .addQueryParameter("offset", offset(page))
             .addQueryParameter("includes[]", "cover_art")
-            .build()
-        return GET(url, headers)
+
+        if (query.isNotBlank()) {
+            builder.addQueryParameter("title", query)
+        }
+
+        // Default order, overridden only if a Sort filter is present and set.
+        var orderApplied = false
+
+        filters.forEach { filter ->
+            when (filter) {
+                is ContentRatingFilter -> filter.state
+                    .filter { it.state }
+                    // it.value is a literal from CONTENT_RATINGS.
+                    .forEach { builder.addQueryParameter("contentRating[]", it.value) }
+
+                is StatusFilter -> filter.state
+                    .filter { it.state }
+                    // it.value is a literal from STATUSES.
+                    .forEach { builder.addQueryParameter("status[]", it.value) }
+
+                is TagFilter -> filter.state.forEach { tag ->
+                    when (tag.state) {
+                        // tag.uuid is a literal from TAGS.
+                        Filter.TriState.STATE_INCLUDE ->
+                            builder.addQueryParameter("includedTags[]", tag.uuid)
+                        Filter.TriState.STATE_EXCLUDE ->
+                            builder.addQueryParameter("excludedTags[]", tag.uuid)
+                    }
+                }
+
+                is SortFilter -> {
+                    val selection = filter.state
+                    if (selection != null) {
+                        // SORT_KEYS is a literal array; direction is a literal asc/desc.
+                        val key = SORT_KEYS[selection.index]
+                        val direction = if (selection.ascending) "asc" else "desc"
+                        builder.addQueryParameter("order[$key]", direction)
+                        orderApplied = true
+                    }
+                }
+
+                else -> { /* Header / Separator: no-op */ }
+            }
+        }
+
+        if (!orderApplied) {
+            builder.addQueryParameter("order[followedCount]", "desc")
+        }
+
+        return GET(builder.build(), headers)
     }
 
     override fun searchMangaParse(response: Response): MangasPage = popularMangaParse(response)
+
+    // ---- Filters ----
+    override fun getFilterList(): FilterList = FilterList(
+        Filter.Header("NOTE: Filters are ignored if a text search is combined with sort by relevance."),
+        SortFilter(),
+        ContentRatingFilter(),
+        StatusFilter(),
+        Filter.Header("Tags (tap to include, again to exclude)"),
+        TagFilter(),
+    )
 
     // ---- Details ----
     override fun mangaDetailsRequest(manga: SManga): Request {
@@ -175,7 +265,8 @@ open class MangaDex(override val lang: String, private val dexLang: String) : Ht
             else -> SManga.UNKNOWN
         }
         val coverFile = data.relationships.firstOrNull { it.type == "cover_art" }?.attributes?.fileName
-        thumbnail_url = coverFile?.let { "$cdnUrl/covers/${data.id}/$it.256.jpg" }
+        // Suffix is a literal ("" / ".512.jpg" / ".256.jpg") chosen by the cover-quality preference.
+        thumbnail_url = coverFile?.let { "$cdnUrl/covers/${data.id}/$it${coverQualitySuffix()}" }
     }
 
     private fun offset(page: Int) = ((page - 1) * LIMIT).toString()
@@ -186,7 +277,97 @@ open class MangaDex(override val lang: String, private val dexLang: String) : Ht
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+00:00'", Locale.US)
         .apply { timeZone = TimeZone.getTimeZone("UTC") }
 
+    // ---- Filter types ----
+
+    /** A content-rating checkbox; [value] is a literal MangaDex `contentRating[]` value. */
+    private class ContentRating(name: String, val value: String) : Filter.CheckBox(name)
+
+    private class ContentRatingFilter : Filter.Group<ContentRating>(
+        "Content rating",
+        CONTENT_RATINGS.map { ContentRating(it.first, it.second) },
+    )
+
+    /** A publication-status checkbox; [value] is a literal MangaDex `status[]` value. */
+    private class Status(name: String, val value: String) : Filter.CheckBox(name)
+
+    private class StatusFilter : Filter.Group<Status>(
+        "Publication status",
+        STATUSES.map { Status(it.first, it.second) },
+    )
+
+    /** A tristate tag; [uuid] is a literal MangaDex tag UUID (see [TAGS]). */
+    private class Tag(name: String, val uuid: String) : Filter.TriState(name)
+
+    private class TagFilter : Filter.Group<Tag>(
+        "Tags",
+        TAGS.map { Tag(it.first, it.second) },
+    )
+
+    private class SortFilter : Filter.Sort(
+        "Sort by",
+        SORT_LABELS,
+        Selection(0, ascending = false),
+    )
+
     companion object {
         private const val LIMIT = 20
+
+        private const val COVER_QUALITY_PREF = "cover_quality"
+        private const val COVER_ORIGINAL = ""
+        private const val COVER_512 = ".512.jpg"
+        private const val COVER_256 = ".256.jpg"
+
+        // label -> literal `contentRating[]` API value
+        private val CONTENT_RATINGS = listOf(
+            "Safe" to "safe",
+            "Suggestive" to "suggestive",
+            "Erotica" to "erotica",
+            "Pornographic" to "pornographic",
+        )
+
+        // label -> literal `status[]` API value
+        private val STATUSES = listOf(
+            "Ongoing" to "ongoing",
+            "Completed" to "completed",
+            "Hiatus" to "hiatus",
+            "Cancelled" to "cancelled",
+        )
+
+        // Sort labels shown to the user; index maps 1:1 to SORT_KEYS below.
+        private val SORT_LABELS = arrayOf(
+            "Best match (relevance)",
+            "Followed count",
+            "Latest chapter",
+            "Title",
+            "Rating",
+        )
+
+        // Literal MangaDex `order[<key>]` keys, index-aligned with SORT_LABELS.
+        private val SORT_KEYS = arrayOf(
+            "relevance",
+            "followedCount",
+            "latestUploadedChapter",
+            "title",
+            "rating",
+        )
+
+        // Curated set of well-known MangaDex tag UUIDs (stable ids from the public /manga/tag endpoint).
+        // label -> literal tag UUID, applied as includedTags[]/excludedTags[].
+        private val TAGS = listOf(
+            "Action" to "391b0423-d847-456f-aff0-8b0cfc03066b",
+            "Adventure" to "87cc87cd-a395-47af-b27a-93258283bbc6",
+            "Comedy" to "4d32cc48-9f00-4cca-9b5a-a839f0764984",
+            "Drama" to "b9af3a63-f058-46de-a9a0-e0c13906197a",
+            "Fantasy" to "cdc58593-87dd-415e-bbc0-2ec27bf404cc",
+            "Horror" to "cdad7e68-1419-41dd-bdce-27753074a640",
+            "Isekai" to "ace04997-f6bd-436e-b261-779182193d3d",
+            "Mystery" to "07251805-a27e-4d59-b488-f0bfbec15168",
+            "Romance" to "423e2eae-a7a2-4a8b-ac03-a8351462d71d",
+            "Sci-Fi" to "256c8bd9-4904-4360-bf4f-508a76d67183",
+            "Slice of Life" to "e5301a23-ebd9-49dd-a0cb-2add944c7fe9",
+            "Sports" to "69964a64-2f90-4d33-beeb-f3ed2875eb4c",
+            "Supernatural" to "eabc5b4c-6aff-42f3-b657-3e90cbd00b75",
+            "Tragedy" to "f8f62932-27da-4fe4-8ee1-6779a8c5edba",
+        )
     }
 }
