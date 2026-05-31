@@ -1,0 +1,13 @@
+ext {
+    extName = 'Manhwa Indo'
+    extClass = '.ManhwaIndo'
+    extVersionCode = 1
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    // Bundle the shared MangaThemesia theme into this extension's APK.
+    implementation project(':lib-multisrc:mangathemesia')
+}
