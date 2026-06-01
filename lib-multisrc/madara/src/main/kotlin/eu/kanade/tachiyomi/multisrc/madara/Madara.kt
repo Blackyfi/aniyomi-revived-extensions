@@ -7,6 +7,7 @@ import eu.kanade.tachiyomi.source.model.SChapter
 import eu.kanade.tachiyomi.source.model.SManga
 import eu.kanade.tachiyomi.source.online.ParsedHttpSource
 import okhttp3.Request
+import okhttp3.Response
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 
@@ -97,5 +98,10 @@ abstract class Madara(
 
     // Madara pages already carry absolute imageUrls, so imageUrlParse is never invoked.
     override fun imageUrlParse(document: Document): String =
+        throw UnsupportedOperationException()
+
+    // This fork's HttpSource declares chapterPageParse abstract (HttpSource.kt:287); page-based
+    // Madara sources never use it, so provide a default so derived sources stay ~30 lines.
+    override fun chapterPageParse(response: Response): SChapter =
         throw UnsupportedOperationException()
 }
