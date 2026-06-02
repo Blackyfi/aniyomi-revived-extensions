@@ -1,0 +1,71 @@
+{
+  "result": "ok",
+  "response": "collection",
+  "data": [
+    {
+      "id": "32d76d19-8a05-4db0-9fc2-e0b0648fe9d0",
+      "type": "manga",
+      "attributes": {
+        "title": {
+          "en": "Solo Leveling",
+          "ja": "俺だけレベルアップ"
+        },
+        "altTitles": [],
+        "description": {
+          "en": "10 years ago, after \"the Gate\" connected the real world with the monster world, some ordinary people received the power to hunt monsters."
+        },
+        "status": "completed",
+        "year": 2018,
+        "contentRating": "safe",
+        "tags": [
+          {
+            "id": "391b0423-d847-456f-aff0-8b0cfc03066b",
+            "type": "tag",
+            "attributes": {
+              "name": { "en": "Action" }
+            }
+          },
+          {
+            "id": "cdc58593-87dd-415e-bbc0-2ec27bf404cc",
+            "type": "tag",
+            "attributes": {
+              "name": { "en": "Fantasy" }
+            }
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "id": "881d4f47-3c1d-4d8a-a8a8-1f8c5b3f3a01",
+          "type": "author",
+          "attributes": { "name": "Chugong" }
+        },
+        {
+          "id": "b1f4f1f7-1a2b-4c3d-9e8f-aaaabbbbcccc",
+          "type": "cover_art",
+          "attributes": { "fileName": "cover-solo-leveling.jpg" }
+        }
+      ]
+    },
+    {
+      "id": "a96676e5-8ae2-425e-b549-7f15dd34a6d8",
+      "type": "manga",
+      "attributes": {
+        "title": { "en": "Komi Can't Communicate" },
+        "description": {},
+        "status": "ongoing",
+        "tags": []
+      },
+      "relationships": [
+        {
+          "id": "deadbeef-0000-1111-2222-333344445555",
+          "type": "cover_art",
+          "attributes": { "fileName": "komi-vol1.png" }
+        }
+      ]
+    }
+  ],
+  "limit": 20,
+  "offset": 0,
+  "total": 2
+}
