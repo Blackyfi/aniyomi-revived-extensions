@@ -120,6 +120,14 @@ def main() -> None:
         ext_class = meta_value(tree, "tachiyomi.extension.class")
         nsfw = meta_value(tree, "tachiyomi.extension.nsfw")
 
+        # Top-level lang = the source's <parent> dir (src/<parent>/<module>), encoded in the
+        # package (common.gradle:53). Falls back to the APK-filename heuristic for non-standard pkgs.
+        pkg_parent = (
+            pkg[len(_PKG_PREFIX):].split(".")[0]
+            if pkg and pkg.startswith(_PKG_PREFIX) and "." in pkg[len(_PKG_PREFIX):]
+            else None
+        )
+
         # Inspector: fill sources[] (id/lang/name/baseUrl) by static analysis of the module.
         sources = []
         mod_dir = module_dir_for(src_root, pkg)
@@ -130,7 +138,7 @@ def main() -> None:
             "name": (attr(tree, "android:label") or pkg or fn).removeprefix("Tachiyomi: "),
             "pkg": pkg,
             "apk": fn,
-            "lang": fn.split(".")[0].split("-")[0] if "-" in fn else "all",
+            "lang": pkg_parent or (fn.split(".")[0].split("-")[0] if "-" in fn else "all"),
             "code": int(attr(tree, "android:versionCode") or 0),
             "version": attr(tree, "android:versionName") or "0",
             "nsfw": int(nsfw) if nsfw and nsfw.isdigit() else 0,
