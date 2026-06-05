@@ -12,3 +12,8 @@ captures/
 *.jks
 ci.keystore
 keystore.properties
+# Generated published artifacts live on the `repo` branch, never on main
+/repo/
+# Python tooling cruft
+__pycache__/
+*.pyc
