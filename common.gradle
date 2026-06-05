@@ -42,7 +42,10 @@ android {
         main {
             manifest.srcFile "$rootDir/AndroidManifest.xml"
             java.srcDirs = ['src']
-            res.srcDirs = ['res']
+            // 'res' is the per-source override dir; 'res-shared' provides a default ic_launcher so
+            // every APK ships a launcher icon (the app fetches icon/<pkg>.png). A source can override
+            // by adding its own res/mipmap-*/ic_launcher.png.
+            res.srcDirs = ['res', "$rootDir/res-shared"]
             assets.srcDirs = ['assets']
         }
     }
