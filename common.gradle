@@ -85,6 +85,14 @@ android {
         includeInApk = false
         includeInBundle = false
     }
+
+    // AGP's bundled `NullSafeMutableLiveData` (NonNullableMutableLiveDataDetector) lint check
+    // crashes with an ArrayIndexOutOfBounds while analyzing the `:lib-stub` Kotlin sources during
+    // the release lint-vital pass. Disable that single buggy detector so signed assembleRelease
+    // completes; it is unrelated to extension correctness.
+    lint {
+        disable += 'NullSafeMutableLiveData'
+    }
 }
 
 repositories {
@@ -98,9 +106,16 @@ repositories {
 
 dependencies {
     // Provided by the host app at runtime — compile against, never bundle.
-    compileOnly libs.source.api
-    compileOnly libs.core.common
+    // The in-repo `:lib-stub` mirrors the host source-api / core:common API surface so the
+    // extensions compile on CI without publishing those app artifacts to mavenLocal. It is
+    // `compileOnly`, so it is never bundled into the APK (the host supplies the real classes).
+    compileOnly project(':lib-stub')
     compileOnly libs.kotlinx.serialization.json
     compileOnly libs.okhttp
     compileOnly libs.jsoup
+    // ConfigurableSource extensions reference androidx.preference types (PreferenceScreen,
+    // ListPreference, EditTextPreference). The host app provides androidx.preference at runtime;
+    // the real source-api exposed it transitively, but a `compileOnly` stub does not propagate
+    // its deps, so declare it here (compileOnly — never bundled).
+    compileOnly 'androidx.preference:preference:1.2.1'
 }
