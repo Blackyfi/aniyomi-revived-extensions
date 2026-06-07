@@ -92,7 +92,7 @@ jobs:
         env:
           SIGNING_FINGERPRINT: ${{ steps.fp.outputs.fingerprint }}
         run: |
-          python3 tools/create_repo.py repo/apk repo/index.json repo/index.min.json
+          python3 tools/create_repo.py repo/apk repo/index.json repo/index.min.json --src-root .
           sed "s/REPLACE_WITH_LOWERCASE_SHA256_OF_YOUR_SIGNING_CERT/${SIGNING_FINGERPRINT}/" \
             repo.json.template > repo/repo.json
 
