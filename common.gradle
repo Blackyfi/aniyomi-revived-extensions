@@ -42,10 +42,12 @@ android {
         main {
             manifest.srcFile "$rootDir/AndroidManifest.xml"
             java.srcDirs = ['src']
-            // 'res' is the per-source override dir; 'res-shared' provides a default ic_launcher so
-            // every APK ships a launcher icon (the app fetches icon/<pkg>.png). A source can override
-            // by adding its own res/mipmap-*/ic_launcher.png.
-            res.srcDirs = ['res', "$rootDir/res-shared"]
+            // 'res' is the per-source dir; 'res-shared' provides a DEFAULT ic_launcher so every APK
+            // ships a launcher icon (the app fetches icon/<pkg>.png). Only fall back to res-shared
+            // when the source has no launcher icon of its own — otherwise AGP errors on the duplicate
+            // (vendored sources ship their own full mipmap set).
+            def hasOwnIcon = !fileTree(dir: "${project.projectDir}/res", include: 'mipmap*/ic_launcher.*').isEmpty()
+            res.srcDirs = hasOwnIcon ? ['res'] : ['res', "$rootDir/res-shared"]
             assets.srcDirs = ['assets']
         }
     }
@@ -118,4 +120,6 @@ dependencies {
     // the real source-api exposed it transitively, but a `compileOnly` stub does not propagate
     // its deps, so declare it here (compileOnly — never bundled).
     compileOnly 'androidx.preference:preference:1.2.1'
+    // RxJava 1.x — host retains the deprecated Rx source API used by many ported sources.
+    compileOnly 'io.reactivex:rxjava:1.3.8'
 }

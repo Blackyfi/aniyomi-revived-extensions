@@ -25,6 +25,9 @@ rootProject.name = "aniyomi-revived-extensions"
 // `compileOnly` so the EXT repo compiles on CI without publishing the app artifacts to mavenLocal.
 include(":lib-stub")
 
+// Shared `keiyoushi.utils` helpers, bundled into sources that depend on it (vendored from keiyoushi).
+include(":core")
+
 // Shared theme base classes (lib-multisrc/<theme>)
 include(":lib-multisrc:madara")
 include(":lib-multisrc:mangathemesia")
