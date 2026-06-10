@@ -12,5 +12,8 @@ class NetworkHelper {
     val client: OkHttpClient
         get() = throw RuntimeException("stub")
 
+    val cloudflareClient: OkHttpClient
+        get() = throw RuntimeException("stub")
+
     fun defaultUserAgentProvider(): String = throw RuntimeException("stub")
 }

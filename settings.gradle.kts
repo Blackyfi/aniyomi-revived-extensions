@@ -28,9 +28,10 @@ include(":lib-stub")
 // Shared `keiyoushi.utils` helpers, bundled into sources that depend on it (vendored from keiyoushi).
 include(":core")
 
-// Shared theme base classes (lib-multisrc/<theme>)
-include(":lib-multisrc:madara")
-include(":lib-multisrc:mangathemesia")
+// Shared helper libs (lib/<name>) and theme bases (lib-multisrc/<theme>) — auto-discovered so
+// vendoring a new one only requires dropping its module dir + build.gradle.kts.
+rootDir.resolve("lib").listFiles { f -> f.isDirectory }?.sorted()?.forEach { include(":lib:${it.name}") }
+rootDir.resolve("lib-multisrc").listFiles { f -> f.isDirectory }?.sorted()?.forEach { include(":lib-multisrc:${it.name}") }
 
 // Per-source modules, auto-discovered: src/<lang>/<name>
 rootDir.resolve("src").listFiles { f -> f.isDirectory }?.sorted()?.forEach { langDir ->
