@@ -1,0 +1,16 @@
+aniyomi-revived-extensions
+Copyright 2026 Blackyfi
+
+This product includes software developed by the Keiyoushi project
+(https://github.com/keiyoushi/extensions-source), licensed under the
+Apache License, Version 2.0.
+
+Portions of this repository — in particular the shared helper modules under
+`lib/` and `core/`, and the theme base classes under `lib-multisrc/` — are
+derived from or vendored from keiyoushi/extensions-source, which is itself
+derived from the Tachiyomi / Mihon extension ecosystem. All such code remains
+under the Apache License, Version 2.0 (see LICENSE).
+
+Modifications were made to adapt the code to the aniyomi-revived fork's
+source-api and build system. Every vendored source is human-reviewed before it
+is signed and published (see CONTRIBUTING.md).
