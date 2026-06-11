@@ -1,0 +1,12 @@
+ext {
+    extName = 'Azora'
+    extClass = '.Azora'
+    extVersionCode = 44
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:iken')
+}

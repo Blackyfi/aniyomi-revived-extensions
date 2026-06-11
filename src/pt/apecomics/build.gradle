@@ -1,0 +1,12 @@
+ext {
+    extName = 'Capitoons'
+    extClass = '.Capitoons'
+    extVersionCode = 44
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangawork')
+}

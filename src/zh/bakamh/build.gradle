@@ -1,0 +1,14 @@
+ext {
+    extName = 'Baka Manhua'
+    extClass = '.Bakamh'
+    extVersionCode = 8
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+    implementation project(':lib:randomua')
+    implementation project(':core')
+}

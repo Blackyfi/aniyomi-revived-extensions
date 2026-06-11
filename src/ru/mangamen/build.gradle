@@ -1,0 +1,12 @@
+ext {
+    extName = 'MangaMen'
+    extClass = '.MangaMen'
+    extVersionCode = 1
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

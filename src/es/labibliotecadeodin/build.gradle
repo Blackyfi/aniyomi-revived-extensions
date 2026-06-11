@@ -1,0 +1,12 @@
+ext {
+    extName = 'La Biblioteca de Odin'
+    extClass = '.LaBibliotecaDeOdin'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:lectormoe')
+}

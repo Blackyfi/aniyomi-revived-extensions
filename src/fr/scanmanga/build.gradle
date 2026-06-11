@@ -1,0 +1,12 @@
+ext {
+    extName = 'Scan-Manga'
+    extClass = '.ScanManga'
+    extVersionCode = 21
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

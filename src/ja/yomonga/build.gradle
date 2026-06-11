@@ -1,0 +1,13 @@
+ext {
+    extName = 'Yomonga'
+    extClass = '.Yomonga'
+    extVersionCode = 2
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:speedbinb')
+    implementation project(':core')
+}

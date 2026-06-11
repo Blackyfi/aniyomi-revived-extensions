@@ -1,0 +1,13 @@
+ext {
+    extName = 'Hentai Slayer'
+    extClass = '.HentaiSlayer'
+    extVersionCode = 3
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:fuzzydoodle')
+    implementation project(':core')
+}

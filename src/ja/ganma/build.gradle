@@ -1,0 +1,12 @@
+ext {
+    extName = 'GANMA!'
+    extClass = '.Ganma'
+    extVersionCode = 5
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

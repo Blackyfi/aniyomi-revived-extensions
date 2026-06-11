@@ -1,0 +1,8 @@
+ext {
+    extName = 'Twi4'
+    extClass = '.Twi4'
+    extVersionCode = 6
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"

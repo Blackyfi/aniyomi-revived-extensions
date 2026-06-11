@@ -1,0 +1,12 @@
+ext {
+    extName = 'Ainz Scans ID'
+    extClass = '.AinzScansID'
+    extVersionCode = 33
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

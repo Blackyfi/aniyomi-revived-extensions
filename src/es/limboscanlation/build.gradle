@@ -1,0 +1,12 @@
+ext {
+    extName = 'Limbo Scanlation'
+    extClass = '.LimboScanlation'
+    extVersionCode = 0
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:lectormoe')
+}

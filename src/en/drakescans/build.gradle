@@ -1,0 +1,13 @@
+ext {
+    extName = 'Drake Scans'
+    extClass = '.DrakeScans'
+    extVersionCode = 15
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangathemesia')
+    implementation project(':core')
+}

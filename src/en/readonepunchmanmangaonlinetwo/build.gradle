@@ -1,0 +1,13 @@
+ext {
+    extName = 'Read One-Punch Man Manga Online'
+    extClass = '.ReadOnePunchManMangaOnlineTwo'
+    extVersionCode = 1
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangacatalog')
+    implementation project(':core')
+}

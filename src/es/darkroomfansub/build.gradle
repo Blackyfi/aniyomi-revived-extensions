@@ -1,0 +1,12 @@
+ext {
+    extName = 'Dark Room Fansub'
+    extClass = '.DarkRoomFansub'
+    extVersionCode = 1
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:zeistmanga')
+}

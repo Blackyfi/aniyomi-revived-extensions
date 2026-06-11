@@ -1,0 +1,12 @@
+ext {
+    extName = 'HonkaiImpact3'
+    extClass = '.Honkaiimpact'
+    extVersionCode = 4
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

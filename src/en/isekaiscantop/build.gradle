@@ -1,0 +1,12 @@
+ext {
+    extName = 'IsekaiScan.top (unoriginal)'
+    extClass = '.IsekaiScanTop'
+    extVersionCode = 1
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

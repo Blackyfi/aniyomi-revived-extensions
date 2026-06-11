@@ -1,0 +1,12 @@
+ext {
+    extName = 'Asia Lotus'
+    extClass = '.AsiaLotus'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangathemesia')
+}

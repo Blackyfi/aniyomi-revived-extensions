@@ -1,0 +1,13 @@
+ext {
+    extName = 'DreComi+'
+    extClass = '.DreComics'
+    extVersionCode = 3
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:clipstudioreader')
+    implementation project(':core')
+}

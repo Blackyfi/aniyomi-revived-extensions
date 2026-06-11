@@ -1,0 +1,14 @@
+ext {
+    extName = 'Hiperdex'
+    extClass = '.Hiperdex'
+    extVersionCode = 28
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+    implementation project(':lib:randomua')
+    implementation project(':core')
+}

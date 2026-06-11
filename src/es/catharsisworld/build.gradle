@@ -1,0 +1,13 @@
+ext {
+    extName = 'Catharsis World'
+    extClass = '.CatharsisWorld'
+    extVersionCode = 13
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+    implementation project(':core')
+}

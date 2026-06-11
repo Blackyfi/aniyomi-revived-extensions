@@ -1,0 +1,12 @@
+ext {
+    extName = 'Astratoons'
+    extClass = '.Astratoons'
+    extVersionCode = 8
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

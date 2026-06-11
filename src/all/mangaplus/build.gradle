@@ -1,0 +1,13 @@
+ext {
+    extName = 'MANGA Plus by SHUEISHA'
+    extClass = '.MangaPlusFactory'
+    extVersionCode = 61
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:i18n')
+    implementation project(':core')
+}

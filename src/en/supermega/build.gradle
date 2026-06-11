@@ -1,0 +1,8 @@
+ext {
+    extName = 'SUPER MEGA'
+    extClass = '.Supermega'
+    extVersionCode = 4
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"

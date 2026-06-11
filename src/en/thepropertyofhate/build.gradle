@@ -1,0 +1,8 @@
+ext {
+    extName = 'The Property of Hate'
+    extClass = '.ThePropertyOfHate'
+    extVersionCode = 4
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"

@@ -1,0 +1,13 @@
+ext {
+    extName = 'DocTruyen3Q'
+    extClass = '.DocTruyen3Q'
+    extVersionCode = 23
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:wpcomics')
+    implementation project(':core')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Broccoli Soup'
+    extClass = '.BroccoliSoup'
+    extVersionCode = 1
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:textinterceptor')
+}

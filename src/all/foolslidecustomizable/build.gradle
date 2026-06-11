@@ -1,0 +1,12 @@
+ext {
+    extName = 'FoolSlide Customizable'
+    extClass = '.FoolSlideCustomizableFactory'
+    extVersionCode = 0
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:foolslide')
+}

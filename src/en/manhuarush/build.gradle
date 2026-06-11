@@ -1,0 +1,12 @@
+ext {
+    extName = 'Manhua Rush'
+    extClass = '.ManhuaRush'
+    extVersionCode = 1
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

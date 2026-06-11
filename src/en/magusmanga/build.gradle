@@ -1,0 +1,12 @@
+ext {
+    extName = 'Magus Manga'
+    extClass = '.MagusManga'
+    extVersionCode = 45
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:iken')
+}

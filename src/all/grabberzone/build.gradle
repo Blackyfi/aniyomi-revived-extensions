@@ -1,0 +1,12 @@
+ext {
+    extName = 'Grabber Zone'
+    extClass = '.GrabberZone'
+    extVersionCode = 0
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

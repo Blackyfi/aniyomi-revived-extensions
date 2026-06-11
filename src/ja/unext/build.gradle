@@ -1,0 +1,12 @@
+ext {
+    extName = 'U-NEXT'
+    extClass = '.UNext'
+    extVersionCode = 3
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

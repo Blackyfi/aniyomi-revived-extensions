@@ -1,0 +1,12 @@
+ext {
+    extName = 'Rimu Scans'
+    extClass = '.RimuScans'
+    extVersionCode = 34
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

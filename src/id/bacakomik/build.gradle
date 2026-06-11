@@ -1,0 +1,12 @@
+ext {
+    extName = 'BacaKomik'
+    extClass = '.BacaKomik'
+    extVersionCode = 14
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

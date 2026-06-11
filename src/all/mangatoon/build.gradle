@@ -1,0 +1,12 @@
+ext {
+    extName = 'MangaToon (Limited)'
+    extClass = '.MangaToonFactory'
+    extVersionCode = 7
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

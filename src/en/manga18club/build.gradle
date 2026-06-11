@@ -1,0 +1,12 @@
+ext {
+    extName = 'Manga18.Club'
+    extClass = '.Manga18Club'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:manga18')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'MeDamTruyen'
+    extClass = '.MeDamTruyen'
+    extVersionCode = 5
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

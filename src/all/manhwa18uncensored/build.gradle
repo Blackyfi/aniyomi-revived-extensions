@@ -1,0 +1,12 @@
+ext {
+    extName = 'Manhwa 18 Uncensored'
+    extClass = '.Manhwa18UncensoredFactory'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

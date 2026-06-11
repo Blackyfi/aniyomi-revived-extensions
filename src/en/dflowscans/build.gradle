@@ -1,0 +1,12 @@
+ext {
+    extName = 'DFlowScans'
+    extClass = '.DFlowScans'
+    extVersionCode = 1
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

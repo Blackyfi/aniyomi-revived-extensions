@@ -1,0 +1,12 @@
+ext {
+    extName = 'Baozi Manhua'
+    extClass = '.Baozi'
+    extVersionCode = 27
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

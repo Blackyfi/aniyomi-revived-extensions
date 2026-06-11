@@ -1,0 +1,12 @@
+ext {
+    extName = 'Hwago'
+    extClass = '.Hwago'
+    extVersionCode = 4
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

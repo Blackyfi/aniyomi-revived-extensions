@@ -1,0 +1,13 @@
+ext {
+    extName = 'KissLove'
+    extClass = '.KissLove'
+    extVersionCode = 19
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:i18n')
+    implementation project(':core')
+}

@@ -1,0 +1,14 @@
+ext {
+    extName = 'Manga Crab'
+    extClass = '.MangaCrab'
+    extVersionCode = 22
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+    implementation project(':lib:randomua')
+    implementation project(':core')
+}

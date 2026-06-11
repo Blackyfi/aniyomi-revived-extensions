@@ -1,0 +1,12 @@
+ext {
+    extName = 'Mangaworld'
+    extClass = '.Mangaworld'
+    extVersionCode = 9
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangaworld')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Erofus'
+    extClass = '.Erofus'
+    extVersionCode = 2
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:eromuse')
+}

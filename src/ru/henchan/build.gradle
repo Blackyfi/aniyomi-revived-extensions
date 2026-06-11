@@ -1,0 +1,13 @@
+ext {
+    extName = 'HenChan'
+    extClass = '.HenChan'
+    extVersionCode = 41
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:multichan')
+    implementation project(':core')
+}

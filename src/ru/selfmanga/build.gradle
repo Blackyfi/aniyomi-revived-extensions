@@ -1,0 +1,13 @@
+ext {
+    extName = 'SelfManga'
+    extClass = '.SelfManga'
+    extVersionCode = 23
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:grouple')
+    implementation project(':core')
+}

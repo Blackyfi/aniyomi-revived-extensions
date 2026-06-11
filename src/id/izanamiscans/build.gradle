@@ -1,0 +1,12 @@
+ext {
+    extName = 'Izanami Scans'
+    extClass = '.IzanamiScans'
+    extVersionCode = 0
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangathemesia')
+}

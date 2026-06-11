@@ -1,0 +1,13 @@
+ext {
+    extName = 'Manga Ball'
+    extClass = '.MangaBallFactory'
+    extVersionCode = 3
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:cookieinterceptor')
+    implementation project(':core')
+}

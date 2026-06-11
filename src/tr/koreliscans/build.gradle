@@ -1,0 +1,12 @@
+ext {
+    extName = 'Koreli Scans'
+    extClass = '.KoreliScans'
+    extVersionCode = 19
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangathemesia')
+}

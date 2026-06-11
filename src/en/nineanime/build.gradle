@@ -1,0 +1,12 @@
+ext {
+    extName = 'NineAnime'
+    extClass = '.NineAnime'
+    extVersionCode = 6
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

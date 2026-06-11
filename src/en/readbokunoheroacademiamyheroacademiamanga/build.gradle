@@ -1,0 +1,12 @@
+ext {
+    extName = 'Read Boku no Hero Academia My Hero Academia Manga'
+    extClass = '.ReadBokuNoHeroAcademiaMyHeroAcademiaManga'
+    extVersionCode = 3
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:mangacatalog')
+}

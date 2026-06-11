@@ -1,0 +1,13 @@
+ext {
+    extName = 'HentaiLib'
+    extClass = '.HentaiLib'
+    extVersionCode = 20
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:libgroup')
+    implementation project(':core')
+}

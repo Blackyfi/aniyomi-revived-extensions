@@ -1,0 +1,13 @@
+ext {
+    extName = 'Grrl Power Comic'
+    extClass = '.GrrlPower'
+    extVersionCode = 4
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:textinterceptor')
+    implementation project(':core')
+}

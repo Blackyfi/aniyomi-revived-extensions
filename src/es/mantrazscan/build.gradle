@@ -1,0 +1,12 @@
+ext {
+    extName = 'Manhwa Scan'
+    extClass = '.ManhwaScan'
+    extVersionCode = 55
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

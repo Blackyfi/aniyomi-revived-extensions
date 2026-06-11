@@ -1,0 +1,12 @@
+ext {
+    extName = 'Manhwa18.net'
+    extClass = '.Manhwa18Net'
+    extVersionCode = 12
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

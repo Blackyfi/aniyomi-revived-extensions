@@ -1,0 +1,12 @@
+ext {
+    extName = 'Oppai Stream'
+    extClass = '.OppaiStream'
+    extVersionCode = 5
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

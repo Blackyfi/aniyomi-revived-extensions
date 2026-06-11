@@ -1,0 +1,14 @@
+ext {
+    extName = 'Mangabz'
+    extClass = '.Mangabz'
+    extVersionCode = 13
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib:cookieinterceptor')
+    implementation project(':lib:unpacker')
+    implementation project(':core')
+}

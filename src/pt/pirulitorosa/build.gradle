@@ -1,0 +1,12 @@
+ext {
+    extName = 'Pirulito Rosa'
+    extClass = '.PirulitoRosa'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:madara')
+}

@@ -1,0 +1,12 @@
+ext {
+    extName = 'Mikrokosmos Fansub'
+    extClass = '.MikrokosmosFansub'
+    extVersionCode = 1
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:zeistmanga')
+}

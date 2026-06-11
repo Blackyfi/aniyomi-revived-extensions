@@ -1,0 +1,12 @@
+ext {
+    extName = 'Hentai Crot'
+    extClass = '.HentaiCrot'
+    extVersionCode = 0
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':lib-multisrc:oceanwp')
+}

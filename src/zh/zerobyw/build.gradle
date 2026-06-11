@@ -1,0 +1,12 @@
+ext {
+    extName = 'Zerobyw'
+    extClass = '.Zerobyw'
+    extVersionCode = 20
+    isNsfw = true
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

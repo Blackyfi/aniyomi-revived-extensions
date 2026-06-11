@@ -1,0 +1,12 @@
+ext {
+    extName = 'Pluma Comics'
+    extClass = '.PlumaComics'
+    extVersionCode = 45
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}

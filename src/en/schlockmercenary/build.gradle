@@ -1,0 +1,12 @@
+ext {
+    extName = 'Schlock Mercenary'
+    extClass = '.Schlockmercenary'
+    extVersionCode = 2
+    isNsfw = false
+}
+
+apply from: "$rootDir/common.gradle"
+
+dependencies {
+    implementation project(':core')
+}
