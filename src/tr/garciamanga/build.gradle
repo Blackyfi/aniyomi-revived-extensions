@@ -1,7 +1,7 @@
 ext {
     extName = 'Garcia Manga'
     extClass = '.GarciaManga'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

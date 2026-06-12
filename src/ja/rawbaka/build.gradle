@@ -1,7 +1,7 @@
 ext {
     extName = 'RawBaka'
     extClass = '.RawBaka'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

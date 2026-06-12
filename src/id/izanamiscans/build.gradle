@@ -1,7 +1,7 @@
 ext {
     extName = 'Izanami Scans'
     extClass = '.IzanamiScans'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

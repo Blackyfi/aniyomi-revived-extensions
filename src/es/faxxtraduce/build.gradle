@@ -1,7 +1,7 @@
 ext {
     extName = 'FaxxTraduce'
     extClass = '.FaxxTraduce'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

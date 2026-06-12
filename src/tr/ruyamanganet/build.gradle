@@ -1,7 +1,7 @@
 ext {
     extName = 'Rüya Manga.net'
     extClass = '.RuyaMangaNet'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

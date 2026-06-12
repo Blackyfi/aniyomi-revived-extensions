@@ -1,7 +1,7 @@
 ext {
     extName = 'Pornhwa.fr'
     extClass = '.PornhwaFR'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

@@ -1,7 +1,7 @@
 ext {
     extName = 'Kaizen Scan'
     extClass = '.KaizenScan'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

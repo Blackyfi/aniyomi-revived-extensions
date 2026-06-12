@@ -1,7 +1,7 @@
 ext {
     extName = 'Templo de Scarlet'
     extClass = '.TemploDeScarlet'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

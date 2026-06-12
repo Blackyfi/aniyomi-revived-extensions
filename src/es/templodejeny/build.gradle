@@ -1,7 +1,7 @@
 ext {
     extName = 'Templo de Jeny'
     extClass = '.TemploDeJeny'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

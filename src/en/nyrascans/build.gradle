@@ -1,7 +1,7 @@
 ext {
     extName = 'Nyra Scans'
     extClass = '.NyraScans'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

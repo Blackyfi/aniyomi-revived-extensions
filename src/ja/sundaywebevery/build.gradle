@@ -1,7 +1,7 @@
 ext {
     extName = 'Sunday Web Every'
     extClass = '.SundayWebEvery'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

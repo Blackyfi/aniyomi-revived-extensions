@@ -1,7 +1,7 @@
 ext {
     extName = 'Joymii Hub'
     extClass = '.JoymiiHub'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

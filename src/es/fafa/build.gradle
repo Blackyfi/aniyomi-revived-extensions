@@ -1,7 +1,7 @@
 ext {
     extName = 'Fafa'
     extClass = '.Fafa'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

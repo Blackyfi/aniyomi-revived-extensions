@@ -1,7 +1,7 @@
 ext {
     extName = 'Glowi'
     extClass = '.Glowi'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

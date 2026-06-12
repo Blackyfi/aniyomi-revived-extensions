@@ -1,7 +1,7 @@
 ext {
     extName = 'Limbo Scanlation'
     extClass = '.LimboScanlation'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

@@ -1,7 +1,7 @@
 ext {
     extName = 'Leitor de Mangas'
     extClass = '.LeitorDeMangas'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

@@ -1,7 +1,7 @@
 ext {
     extName = 'Miaoqu Manhua'
     extClass = '.Miaoqu'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

@@ -1,7 +1,7 @@
 ext {
     extName = '18 Porn Comic'
     extClass = '.EighteenPornComic'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

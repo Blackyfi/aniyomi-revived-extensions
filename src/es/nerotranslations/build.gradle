@@ -1,7 +1,7 @@
 ext {
     extName = 'NeroTranslations'
     extClass = '.NeroTranslations'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

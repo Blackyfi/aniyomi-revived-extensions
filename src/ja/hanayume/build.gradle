@@ -1,7 +1,7 @@
 ext {
     extName = 'Hana To Yume+'
     extClass = '.Hanayume'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

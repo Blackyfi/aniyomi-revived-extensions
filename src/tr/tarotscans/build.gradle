@@ -1,7 +1,7 @@
 ext {
     extName = 'Tarot Scans'
     extClass = '.TarotScans'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

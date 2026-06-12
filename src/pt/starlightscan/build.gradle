@@ -1,7 +1,7 @@
 ext {
     extName = 'Starlight Scan'
     extClass = '.StarlightScan'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

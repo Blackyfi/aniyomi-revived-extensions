@@ -1,7 +1,7 @@
 ext {
     extName = 'LinkManga'
     extClass = '.LinkManga'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

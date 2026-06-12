@@ -1,7 +1,7 @@
 ext {
     extName = 'gafeland'
     extClass = '.Gafeland'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

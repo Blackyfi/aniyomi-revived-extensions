@@ -1,7 +1,7 @@
 ext {
     extName = 'Break Scan'
     extClass = '.BreakScan'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

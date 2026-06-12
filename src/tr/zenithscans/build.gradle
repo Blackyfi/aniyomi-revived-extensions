@@ -1,7 +1,7 @@
 ext {
     extName = 'Zenith Scans'
     extClass = '.ZenithScans'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

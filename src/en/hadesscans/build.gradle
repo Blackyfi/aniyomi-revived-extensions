@@ -1,7 +1,7 @@
 ext {
     extName = 'Hades Scans'
     extClass = '.HadesScans'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

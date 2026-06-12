@@ -1,7 +1,7 @@
 ext {
     extName = 'GALAX Scans'
     extClass = '.GalaxScanlator'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

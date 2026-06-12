@@ -1,7 +1,7 @@
 ext {
     extName = 'Rakuen Translations'
     extClass = '.RakuenTranslations'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

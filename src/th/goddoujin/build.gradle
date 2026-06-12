@@ -1,7 +1,7 @@
 ext {
     extName = 'God-Doujin'
     extClass = '.GodDoujin'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = true
 }
 

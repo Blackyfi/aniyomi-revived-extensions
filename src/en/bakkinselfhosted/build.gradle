@@ -1,7 +1,7 @@
 ext {
     extName = 'Bakkin Self-hosted'
     extClass = '.BakkinSelfHosted'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 

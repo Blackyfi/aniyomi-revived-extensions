@@ -1,7 +1,7 @@
 ext {
     extName = 'Juin Jutsu Team Reader'
     extClass = '.JuinJutsuTeamReader'
-    extVersionCode = 0
+    extVersionCode = 1
     isNsfw = false
 }
 
