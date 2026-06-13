@@ -8,5 +8,6 @@ ext {
 apply from: "$rootDir/common.gradle"
 
 dependencies {
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.9.0"
     implementation project(':core')
 }

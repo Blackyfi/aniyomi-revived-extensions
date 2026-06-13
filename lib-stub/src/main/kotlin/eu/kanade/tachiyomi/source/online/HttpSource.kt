@@ -51,8 +51,13 @@ abstract class HttpSource : CatalogueSource {
     open fun fetchImageUrl(page: Page): Observable<String> = throw RuntimeException("stub")
 
     // Related-manga API (present in newer upstream HttpSource; host may not invoke it).
+    open val supportsRelatedMangas: Boolean get() = false
+    open val disableRelatedMangas: Boolean get() = false
+    open val disableRelatedMangasBySearch: Boolean get() = false
     open fun relatedMangaListRequest(manga: SManga): Request = throw RuntimeException("stub")
     open fun relatedMangaListParse(response: Response): List<SManga> = throw RuntimeException("stub")
+    open suspend fun fetchRelatedMangaList(manga: SManga): List<SManga> = throw RuntimeException("stub")
+    open suspend fun getRelatedMangaList(manga: SManga): List<SManga> = throw RuntimeException("stub")
 
     override fun toString(): String = throw RuntimeException("stub")
 

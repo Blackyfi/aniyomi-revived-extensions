@@ -23,3 +23,6 @@ fun Call.asObservableSuccess(): Observable<Response> = throw RuntimeException("s
 
 /** Stub mirror of the host's suspend `Call.await()` (eu.kanade.tachiyomi.network.await). */
 suspend fun Call.await(): Response = throw RuntimeException("stub")
+
+/** Stub mirror of the host's suspend `Call.awaitSuccess()`. */
+suspend fun Call.awaitSuccess(): Response = throw RuntimeException("stub")
