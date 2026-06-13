@@ -80,7 +80,7 @@ class MLBBLore : HttpSource() {
 
     override fun chapterListRequest(manga: SManga): Request = detailRequest(manga.url)
 
-    override fun chapterListParse(response: Response): List<SChapter> = response.parseAs<ApiDetailResponse>().data?.let { listOf(it.toSChapter()) } ?: return emptyList()
+    override fun chapterListParse(response: Response): List<SChapter> = response.parseAs<ApiDetailResponse>().data?.let { listOf(it.toSChapter()) } ?: emptyList()
 
     override fun pageListRequest(chapter: SChapter): Request = detailRequest(chapter.url)
 

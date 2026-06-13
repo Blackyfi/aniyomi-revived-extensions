@@ -24,7 +24,7 @@ dependencies {
     compileOnly(libs.okhttp)
     compileOnly(libs.jsoup)
     compileOnly(libs.kotlinx.serialization.json)
-    implementation(project(":core"))
+    api(project(":core"))
     compileOnly("io.reactivex:rxjava:1.3.8")
     compileOnly("com.squareup.okhttp3:okhttp-brotli:5.0.0-alpha.11")
 }
