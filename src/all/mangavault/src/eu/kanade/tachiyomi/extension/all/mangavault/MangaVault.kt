@@ -8,8 +8,11 @@ import eu.kanade.tachiyomi.extension.all.mangavault.dto.ChapterDto
 import eu.kanade.tachiyomi.extension.all.mangavault.dto.MangaDto
 import eu.kanade.tachiyomi.extension.all.mangavault.dto.MangaListResponse
 import eu.kanade.tachiyomi.extension.all.mangavault.dto.PageDto
+import eu.kanade.tachiyomi.extension.all.mangavault.dto.SourceDto
 import eu.kanade.tachiyomi.network.GET
 import eu.kanade.tachiyomi.source.ConfigurableSource
+import eu.kanade.tachiyomi.source.MangaSourceInfo
+import eu.kanade.tachiyomi.source.MultiSourceCatalogSource
 import eu.kanade.tachiyomi.source.model.FilterList
 import eu.kanade.tachiyomi.source.model.MangasPage
 import eu.kanade.tachiyomi.source.model.Page
@@ -21,8 +24,10 @@ import kotlinx.serialization.json.Json
 import okhttp3.Headers
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 
 /**
@@ -37,7 +42,7 @@ import okhttp3.Response
  * Auth is a single long-lived API key sent as the `X-Extension-Key` header on
  * every request (including image/download fetches) via an OkHttp interceptor.
  */
-class MangaVault : HttpSource(), ConfigurableSource {
+class MangaVault : HttpSource(), ConfigurableSource, MultiSourceCatalogSource {
 
     override val name = "MangaVault"
 
@@ -188,12 +193,55 @@ class MangaVault : HttpSource(), ConfigurableSource {
     }
 
     private fun chapterToSChapter(dto: ChapterDto): SChapter = SChapter.create().apply {
-        setUrlWithoutDomain("$baseUrl/extension/chapter/${dto.id}/pages")
+        // Source-INDEPENDENT URL keyed by (manga, chapter_number). The backend serves
+        // pages from the manga's effective source, so switching sources keeps the URL
+        // identical for shared chapter numbers — Aniyomi then preserves read/bookmark
+        // state (it matches chapters by URL). The legacy /extension/chapter/{id}/pages
+        // route still works for any older library entries.
+        setUrlWithoutDomain(
+            "$baseUrl/extension/manga/${dto.mangaId}/chapter/${chapterNumberPath(dto.chapterNumber)}/pages",
+        )
         chapter_number = dto.chapterNumber
         date_upload = dto.dateUpload
         scanlator = dto.scanlator
         name = buildChapterName(dto)
     }
+
+    /** Canonical chapter-number path segment: "12" for whole numbers, "12.5" otherwise. */
+    private fun chapterNumberPath(num: Float): String =
+        if (num % 1f == 0f) num.toInt().toString() else num.toString()
+
+    // ---- Multi-source ----
+    override fun getMangaSources(manga: SManga): List<MangaSourceInfo> {
+        if (baseUrl.isEmpty()) return emptyList()
+        val response = client.newCall(GET("$baseUrl${manga.url}", headers)).execute()
+        val dto = response.use { json.decodeFromString<MangaDto>(it.body!!.string()) }
+        return dto.sources.map(::sourceToInfo)
+    }
+
+    override fun setMangaSource(manga: SManga, sourceKey: String): List<MangaSourceInfo> {
+        if (baseUrl.isEmpty()) return emptyList()
+        val body = """{"source":"$sourceKey"}""".toRequestBody("application/json".toMediaType())
+        val request = Request.Builder()
+            .url("$baseUrl${manga.url}/default-source")
+            .headers(headers)
+            .put(body)
+            .build()
+        val response = client.newCall(request).execute()
+        val sources = response.use { json.decodeFromString<List<SourceDto>>(it.body!!.string()) }
+        return sources.map(::sourceToInfo)
+    }
+
+    private fun sourceToInfo(dto: SourceDto): MangaSourceInfo = MangaSourceInfo(
+        key = dto.key,
+        name = dto.name,
+        totalChapters = dto.totalChapters,
+        latestChapter = dto.latestChapterNumber,
+        isPrimary = dto.isPrimary,
+        isDefault = dto.isDefault,
+        isMostUpToDate = dto.isMostUpToDate,
+        isEffective = dto.isEffective,
+    )
 
     /** Stable display name. Kept independent of upscale state so chapter identity never shifts. */
     private fun buildChapterName(dto: ChapterDto): String {
