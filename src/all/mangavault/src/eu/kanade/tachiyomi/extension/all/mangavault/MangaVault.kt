@@ -9,7 +9,6 @@ import eu.kanade.tachiyomi.extension.all.mangavault.dto.MangaDto
 import eu.kanade.tachiyomi.extension.all.mangavault.dto.MangaListResponse
 import eu.kanade.tachiyomi.extension.all.mangavault.dto.PageDto
 import eu.kanade.tachiyomi.network.GET
-import eu.kanade.tachiyomi.network.parseAs
 import eu.kanade.tachiyomi.source.ConfigurableSource
 import eu.kanade.tachiyomi.source.model.FilterList
 import eu.kanade.tachiyomi.source.model.MangasPage
@@ -17,6 +16,7 @@ import eu.kanade.tachiyomi.source.model.Page
 import eu.kanade.tachiyomi.source.model.SChapter
 import eu.kanade.tachiyomi.source.model.SManga
 import eu.kanade.tachiyomi.source.online.HttpSource
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.Headers
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -24,7 +24,6 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import uy.kohesive.injekt.injectLazy
 
 /**
  * MangaVault — a personal self-hosted manga library (FastAPI) exposing an
@@ -46,7 +45,11 @@ class MangaVault : HttpSource(), ConfigurableSource {
 
     override val supportsLatest = true
 
-    private val json: Json by injectLazy()
+    // Construct Json directly. Do NOT use injectLazy()/parseAs() from the lib-stub:
+    // those are `inline` stubs whose `throw RuntimeException("stub")` body gets inlined
+    // into this APK at compile time and actually runs at runtime. kotlinx-serialization's
+    // decodeFromString is the real (host-provided) deserializer.
+    private val json = Json { ignoreUnknownKeys = true }
 
     private val preferences: SharedPreferences by lazy { getSourcePreferences() }
 
@@ -115,7 +118,7 @@ class MangaVault : HttpSource(), ConfigurableSource {
 
     private fun mangaListParse(response: Response): MangasPage {
         if (baseUrl.isEmpty()) return MangasPage(emptyList(), false)
-        val result = with(json) { response.parseAs<MangaListResponse>() }
+        val result = json.decodeFromString<MangaListResponse>(response.body!!.string())
         return MangasPage(result.mangas.map(::mangaToSManga), result.hasNextPage)
     }
 
@@ -126,7 +129,7 @@ class MangaVault : HttpSource(), ConfigurableSource {
     }
 
     override fun mangaDetailsParse(response: Response): SManga =
-        mangaToSManga(with(json) { response.parseAs<MangaDto>() })
+        mangaToSManga(json.decodeFromString<MangaDto>(response.body!!.string()))
 
     // ---- Chapters ----
     override fun chapterListRequest(manga: SManga): Request {
@@ -137,7 +140,7 @@ class MangaVault : HttpSource(), ConfigurableSource {
 
     override fun chapterListParse(response: Response): List<SChapter> {
         if (baseUrl.isEmpty()) return emptyList()
-        val chapters = with(json) { response.parseAs<List<ChapterDto>>() }
+        val chapters = json.decodeFromString<List<ChapterDto>>(response.body!!.string())
         // Server returns ascending by chapter_number; Aniyomi shows newest-first.
         return chapters.map(::chapterToSChapter).sortedByDescending { it.chapter_number }
     }
@@ -155,7 +158,7 @@ class MangaVault : HttpSource(), ConfigurableSource {
 
     override fun pageListParse(response: Response): List<Page> {
         if (baseUrl.isEmpty()) return emptyList()
-        val pages = with(json) { response.parseAs<List<PageDto>>() }
+        val pages = json.decodeFromString<List<PageDto>>(response.body!!.string())
         // image_url is already an absolute backend URL; the interceptor adds the key.
         return pages.map { Page(it.index, imageUrl = it.imageUrl) }
     }
