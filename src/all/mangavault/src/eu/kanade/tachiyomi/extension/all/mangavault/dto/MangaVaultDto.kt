@@ -21,6 +21,21 @@ data class MangaDto(
     val authors: List<String> = emptyList(),
     val genres: List<String> = emptyList(),
     val description: String? = null,
+    // Only populated on the detail endpoint; empty in list responses.
+    val sources: List<SourceDto> = emptyList(),
+)
+
+@Serializable
+data class SourceDto(
+    val key: String = "primary",
+    val name: String = "",
+    val site: String = "",
+    @SerialName("total_chapters") val totalChapters: Int = 0,
+    @SerialName("latest_chapter_number") val latestChapterNumber: Float = 0f,
+    @SerialName("is_primary") val isPrimary: Boolean = false,
+    @SerialName("is_default") val isDefault: Boolean = false,
+    @SerialName("is_most_up_to_date") val isMostUpToDate: Boolean = false,
+    @SerialName("is_effective") val isEffective: Boolean = false,
 )
 
 @Serializable
