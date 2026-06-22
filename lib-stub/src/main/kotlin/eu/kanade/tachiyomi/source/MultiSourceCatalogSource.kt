@@ -2,6 +2,7 @@
 
 package eu.kanade.tachiyomi.source
 
+import eu.kanade.tachiyomi.source.model.SChapter
 import eu.kanade.tachiyomi.source.model.SManga
 
 /**
@@ -12,7 +13,7 @@ import eu.kanade.tachiyomi.source.model.SManga
  * same series from multiple sites). The host shows a source picker on the manga
  * screen and lets the user switch which source's chapters are displayed.
  *
- * Both methods do blocking network I/O — the host calls them off the main
+ * All methods do blocking network I/O — the host calls them off the main
  * thread. Extensions are compiled without kotlinx-coroutines, so these are
  * intentionally NOT `suspend`.
  */
@@ -28,6 +29,15 @@ interface MultiSourceCatalogSource : MangaSource {
      * @return the refreshed source list.
      */
     fun setMangaSource(manga: SManga, sourceKey: String): List<MangaSourceInfo>
+
+    /**
+     * Chapters for a specific [sourceKey] WITHOUT changing the active source. Lets the host prefetch
+     * alternate sources and switch between them instantly. Default returns an empty list (the host
+     * then falls back to [setMangaSource] + [getChapterList]).
+     *
+     * @param sourceKey one of the [MangaSourceInfo.key] values, or "auto".
+     */
+    fun getChapterListForSource(manga: SManga, sourceKey: String): List<SChapter> = emptyList()
 }
 
 /** One selectable source for a manga. Mirrors the host data class field-for-field. */
