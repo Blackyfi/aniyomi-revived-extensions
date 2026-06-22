@@ -150,6 +150,19 @@ class MangaVault : HttpSource(), ConfigurableSource, MultiSourceCatalogSource {
         return chapters.map(::chapterToSChapter).sortedByDescending { it.chapter_number }
     }
 
+    /**
+     * Read-only chapter list for one source, used by the app to prefetch alternates and switch
+     * sources instantly. Hits the same endpoint with `?source=<key>`, which the backend resolves
+     * WITHOUT changing the manga's stored default (unlike [setMangaSource]).
+     */
+    override fun getChapterListForSource(manga: SManga, sourceKey: String): List<SChapter> {
+        if (baseUrl.isEmpty()) return emptyList()
+        val url = "$baseUrl${manga.url}/chapters".toHttpUrl().newBuilder()
+            .addQueryParameter("source", sourceKey)
+            .build()
+        return client.newCall(GET(url, headers)).execute().use(::chapterListParse)
+    }
+
     // Abstract on this fork's HttpSource even for JSON sources; the chapter list is
     // built from JSON, so this is never invoked.
     override fun chapterPageParse(response: Response): SChapter = throw UnsupportedOperationException()

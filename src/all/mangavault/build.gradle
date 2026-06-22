@@ -1,7 +1,7 @@
 ext {
     extName = 'MangaVault'
     extClass = '.MangaVault'   // resolves to eu.kanade.tachiyomi.extension.all.mangavault.MangaVault
-    extVersionCode = 3         // v3: multi-source picker (MultiSourceCatalogSource) + number-keyed chapter URLs
+    extVersionCode = 4         // v4: read-only per-source chapter list (getChapterListForSource) for instant source switching
     isNsfw = false
 }
 
