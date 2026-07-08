@@ -1,7 +1,8 @@
 ext {
     extName = 'MangaVault'
     extClass = '.MangaVault'   // resolves to eu.kanade.tachiyomi.extension.all.mangavault.MangaVault
-    extVersionCode = 4         // v4: read-only per-source chapter list (getChapterListForSource) for instant source switching
+    extVersionCode = 5         // v5: rebuild against ABI-fixed Page stub (uri 4th param) — fixes NoSuchMethodError in pageListParse
+                               // v4: read-only per-source chapter list (getChapterListForSource) for instant source switching
     isNsfw = false
 }
 
