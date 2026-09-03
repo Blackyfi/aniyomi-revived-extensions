@@ -10,6 +10,8 @@ import eu.kanade.tachiyomi.extension.all.mangavault.dto.MangaListResponse
 import eu.kanade.tachiyomi.extension.all.mangavault.dto.PageDto
 import eu.kanade.tachiyomi.extension.all.mangavault.dto.SourceDto
 import eu.kanade.tachiyomi.network.GET
+import eu.kanade.tachiyomi.source.ChapterPipelineSource
+import eu.kanade.tachiyomi.source.ChapterPipelineState
 import eu.kanade.tachiyomi.source.ConfigurableSource
 import eu.kanade.tachiyomi.source.MangaSourceInfo
 import eu.kanade.tachiyomi.source.MultiSourceCatalogSource
@@ -42,7 +44,7 @@ import okhttp3.Response
  * Auth is a single long-lived API key sent as the `X-Extension-Key` header on
  * every request (including image/download fetches) via an OkHttp interceptor.
  */
-class MangaVault : HttpSource(), ConfigurableSource, MultiSourceCatalogSource {
+class MangaVault : HttpSource(), ConfigurableSource, MultiSourceCatalogSource, ChapterPipelineSource {
 
     override val name = "MangaVault"
 
@@ -163,6 +165,26 @@ class MangaVault : HttpSource(), ConfigurableSource, MultiSourceCatalogSource {
         return client.newCall(GET(url, headers)).execute().use(::chapterListParse)
     }
 
+    /**
+     * Per-chapter server-side progress, keyed by the same domain-stripped chapter URL
+     * [chapterToSChapter] builds, so the app can look each row up by its stored `Chapter.url`.
+     *
+     * Reads the ordinary chapter-list endpoint: the flags ride along with every listing, so this
+     * costs one request and no extra work on the server.
+     */
+    override fun getChapterPipelineStates(manga: SManga): Map<String, ChapterPipelineState> {
+        if (baseUrl.isEmpty()) return emptyMap()
+        val chapters = client.newCall(chapterListRequest(manga)).execute().use { response ->
+            json.decodeFromString<List<ChapterDto>>(response.body!!.string())
+        }
+        return chapters.associate { dto ->
+            chapterUrl(dto) to ChapterPipelineState(
+                serverDownloaded = dto.isDownloaded,
+                serverUpscaled = dto.isUpscaled,
+            )
+        }
+    }
+
     // Abstract on this fork's HttpSource even for JSON sources; the chapter list is
     // built from JSON, so this is never invoked.
     override fun chapterPageParse(response: Response): SChapter = throw UnsupportedOperationException()
@@ -211,14 +233,19 @@ class MangaVault : HttpSource(), ConfigurableSource, MultiSourceCatalogSource {
         // identical for shared chapter numbers — Aniyomi then preserves read/bookmark
         // state (it matches chapters by URL). The legacy /extension/chapter/{id}/pages
         // route still works for any older library entries.
-        setUrlWithoutDomain(
-            "$baseUrl/extension/manga/${dto.mangaId}/chapter/${chapterNumberPath(dto.chapterNumber)}/pages",
-        )
+        setUrlWithoutDomain(baseUrl + chapterUrl(dto))
         chapter_number = dto.chapterNumber
         date_upload = dto.dateUpload
         scanlator = dto.scanlator
         name = buildChapterName(dto)
     }
+
+    /**
+     * The domain-stripped chapter URL, and therefore this chapter's identity in the app.
+     * Source-INDEPENDENT and keyed by (manga, chapter_number) — see [chapterToSChapter].
+     */
+    private fun chapterUrl(dto: ChapterDto): String =
+        "/extension/manga/${dto.mangaId}/chapter/${chapterNumberPath(dto.chapterNumber)}/pages"
 
     /** Canonical chapter-number path segment: "12" for whole numbers, "12.5" otherwise. */
     private fun chapterNumberPath(num: Float): String =
