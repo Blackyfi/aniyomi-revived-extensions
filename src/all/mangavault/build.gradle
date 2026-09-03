@@ -1,8 +1,18 @@
 ext {
     extName = 'MangaVault'
     extClass = '.MangaVault'   // resolves to eu.kanade.tachiyomi.extension.all.mangavault.MangaVault
-    extVersionCode = 5         // v5: rebuild against ABI-fixed Page stub (uri 4th param) — fixes NoSuchMethodError in pageListParse
-                               // v4: read-only per-source chapter list (getChapterListForSource) for instant source switching
+
+    // v6: report per-chapter server download/upscale state (ChapterPipelineSource)
+    // v5: rebuild against ABI-fixed Page stub (uri 4th param) — fixes NoSuchMethodError in pageListParse
+    // v4: read-only per-source chapter list (getChapterListForSource) for instant source switching
+    extVersionCode = 6
+
+    // 1.6 because v6 implements ChapterPipelineSource, an interface that only exists from app
+    // v0.18.1.32. An older app filters this entry out of the repo index and never offers the
+    // update (MangaExtensionApi.kt:116), rather than installing it and then failing to load the
+    // class. The other extensions here stay on 1.5 and keep working on every app version.
+    libVersion = '1.6'
+
     isNsfw = false
 }
 

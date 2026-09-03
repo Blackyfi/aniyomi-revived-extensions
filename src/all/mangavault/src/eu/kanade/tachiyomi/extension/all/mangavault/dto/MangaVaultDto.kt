@@ -47,6 +47,9 @@ data class ChapterDto(
     @SerialName("date_upload") val dateUpload: Long = 0L,
     val scanlator: String? = null,
     @SerialName("is_upscaled") val isUpscaled: Boolean = false,
+    // Server-side download state: true once MangaVault holds this chapter's pages.
+    // Distinct from whether the phone has the chapter downloaded.
+    @SerialName("is_downloaded") val isDownloaded: Boolean = false,
 )
 
 @Serializable
