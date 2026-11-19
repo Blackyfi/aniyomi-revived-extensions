@@ -13,7 +13,7 @@ import eu.kanade.tachiyomi.source.model.SManga
  * same series from multiple sites). The host shows a source picker on the manga
  * screen and lets the user switch which source's chapters are displayed.
  *
- * All methods do blocking network I/O — the host calls them off the main
+ * All methods do blocking network I/O; the host calls them off the main
  * thread. Extensions are compiled without kotlinx-coroutines, so these are
  * intentionally NOT `suspend`.
  */

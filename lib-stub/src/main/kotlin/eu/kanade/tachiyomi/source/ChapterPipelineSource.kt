@@ -3,8 +3,8 @@ package eu.kanade.tachiyomi.source
 import eu.kanade.tachiyomi.source.model.SManga
 
 /**
- * A source whose server does work on a chapter *after* it appears in the list —
- * fetching its pages, then upscaling them — and can report how far along each
+ * A source whose server does work on a chapter *after* it appears in the list
+ * (fetching its pages, then upscaling them) and can report how far along each
  * chapter is.
  *
  * This is deliberately not carried on [eu.kanade.tachiyomi.source.model.SChapter].
@@ -13,7 +13,7 @@ import eu.kanade.tachiyomi.source.model.SManga
  * works would rename folders under downloads that already exist. The state is
  * fetched for display instead, and never stored.
  *
- * Performs blocking network I/O — always call off the main thread (e.g. inside
+ * Performs blocking network I/O, so always call off the main thread (e.g. inside
  * `withIOContext`). Intentionally not `suspend`: extensions are compiled without
  * kotlinx-coroutines.
  */
@@ -34,7 +34,7 @@ interface ChapterPipelineSource : MangaSource {
  * How far the source's server has taken one chapter.
  *
  * Note [serverDownloaded] is about the *server* holding the pages, which is a
- * different question from whether this device has the chapter downloaded — the
+ * different question from whether this device has the chapter downloaded; the
  * app tracks that itself.
  */
 data class ChapterPipelineState(

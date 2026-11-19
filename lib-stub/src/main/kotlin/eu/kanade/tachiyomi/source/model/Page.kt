@@ -9,7 +9,7 @@ import android.net.Uri
  * `Page(index, imageUrl = url)` and read [index] / [imageUrl] / [url].
  *
  * ABI-CRITICAL: the parameter list MUST match the host's real
- * `eu.kanade.tachiyomi.source.model.Page(index, url, imageUrl, uri)` exactly — including
+ * `eu.kanade.tachiyomi.source.model.Page(index, url, imageUrl, uri)` exactly, including
  * the 4th `uri` param. Extensions call `Page(index, imageUrl = ...)` with the rest defaulted,
  * which the compiler lowers to the synthetic default-args constructor
  * `<init>(I, String, String, Uri, I, DefaultConstructorMarker)`. If this stub omits `uri`, the

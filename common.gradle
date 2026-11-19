@@ -105,7 +105,7 @@ repositories {
 }
 
 dependencies {
-    // Provided by the host app at runtime — compile against, never bundle.
+    // Provided by the host app at runtime: compile against it, never bundle it.
     // The in-repo `:lib-stub` mirrors the host source-api / core:common API surface so the
     // extensions compile on CI without publishing those app artifacts to mavenLocal. It is
     // `compileOnly`, so it is never bundled into the APK (the host supplies the real classes).
@@ -116,6 +116,6 @@ dependencies {
     // ConfigurableSource extensions reference androidx.preference types (PreferenceScreen,
     // ListPreference, EditTextPreference). The host app provides androidx.preference at runtime;
     // the real source-api exposed it transitively, but a `compileOnly` stub does not propagate
-    // its deps, so declare it here (compileOnly — never bundled).
+    // its deps, so declare it here (compileOnly, never bundled).
     compileOnly 'androidx.preference:preference:1.2.1'
 }

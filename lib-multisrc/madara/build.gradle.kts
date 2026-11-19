@@ -51,7 +51,7 @@ dependencies {
 }
 
 // core:common (pulled directly and transitively via source-api-android) declares a dependency on
-// Aniyomi:i18n — a host-only generated module that is NOT published to mavenLocal. The unit tests
+// Aniyomi:i18n, a host-only generated module that is NOT published to mavenLocal. The unit tests
 // never touch i18n, so drop it from the test classpaths to keep resolution fully offline.
 configurations.matching { it.name.contains("UnitTest", ignoreCase = true) }.configureEach {
     exclude(group = "Aniyomi", module = "i18n")

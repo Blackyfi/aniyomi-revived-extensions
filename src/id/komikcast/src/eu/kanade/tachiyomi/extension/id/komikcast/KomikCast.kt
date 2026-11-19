@@ -6,7 +6,7 @@ import eu.kanade.tachiyomi.source.model.FilterList
 import okhttp3.Request
 
 /**
- * Komik Cast — a long-running Indonesian MangaThemesia site.
+ * Komik Cast: a long-running Indonesian MangaThemesia site.
  *
  * Deviations from the theme defaults: the catalogue lives under `/daftar-komik` (not `/manga`),
  * popular sorting uses `?sortby=popular`, and search uses the same listing path with a `?title=`

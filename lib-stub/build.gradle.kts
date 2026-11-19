@@ -8,7 +8,7 @@
 // so it is NEVER bundled into an APK (the host provides the real implementation at runtime).
 //
 // It is a `com.android.library` (not a plain kotlin lib) so android framework types referenced in
-// the API surface — `Context`, `Application`, `SharedPreferences`, `PreferenceScreen` — resolve.
+// the API surface (`Context`, `Application`, `SharedPreferences`, `PreferenceScreen`) resolve.
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)

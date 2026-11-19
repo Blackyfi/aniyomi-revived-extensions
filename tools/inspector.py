@@ -12,7 +12,7 @@ graph / no android.app.Application). So we instead read the constant `name`/`bas
 `versionId` *statically* from the module's Kotlin and recompute each `id` with the EXACT
 source-api formula.
 
-EXACT ID FORMULA — source-api HttpSource.kt:
+EXACT ID FORMULA, from source-api HttpSource.kt:
   id = generateId(name, lang, versionId)                                 (HttpSource.kt:57)
   generateId:                                                            (HttpSource.kt:87-91)
     key   = "${name.lowercase()}/$lang/$versionId"

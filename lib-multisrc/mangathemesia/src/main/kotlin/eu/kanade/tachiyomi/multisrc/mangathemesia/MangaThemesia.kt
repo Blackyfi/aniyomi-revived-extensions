@@ -166,7 +166,7 @@ abstract class MangaThemesia(
         throw UnsupportedOperationException()
 
     // chapterPageParse is abstract on this fork's HttpSource (source-api HttpSource.kt:287) but
-    // MangaThemesia sites list every chapter on the series page — there is no per-chapter page.
+    // MangaThemesia sites list every chapter on the series page; there is no per-chapter page.
     override fun chapterPageParse(response: Response): SChapter =
         throw UnsupportedOperationException()
 

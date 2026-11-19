@@ -7,7 +7,7 @@ deserializer expects: {name, pkg, apk, lang, code, version, nsfw, sources[]}.
 
 The per-source `sources[]` array (id/lang/name/baseUrl) is filled by the Inspector step
 (tools/inspector.py). Rather than load the APK dex and instantiate Source classes on a device
-(the keiyoushi/yuzono model — impossible here: no device, and the sources are ConfigurableSource
+(the keiyoushi/yuzono model, impossible here: no device, and the sources are ConfigurableSource
 with injekt/Android-backed constructors), the Inspector statically reads the module's Kotlin and
 recomputes each source id with the EXACT source-api formula (HttpSource.kt:57,87-91). For a
 SourceFactory it emits one source per language variant. Pass --src-root <dir> (the repo root that

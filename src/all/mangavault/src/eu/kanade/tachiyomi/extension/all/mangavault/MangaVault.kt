@@ -33,7 +33,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 
 /**
- * MangaVault — a personal self-hosted manga library (FastAPI) exposing an
+ * MangaVault: a personal self-hosted manga library (FastAPI) exposing an
  * Aniyomi-friendly JSON API at `/extension/...`, reached over Tailscale.
  *
  * There is NO hardcoded server: the server URL and API key both come from user
@@ -230,7 +230,7 @@ class MangaVault : HttpSource(), ConfigurableSource, MultiSourceCatalogSource, C
     private fun chapterToSChapter(dto: ChapterDto): SChapter = SChapter.create().apply {
         // Source-INDEPENDENT URL keyed by (manga, chapter_number). The backend serves
         // pages from the manga's effective source, so switching sources keeps the URL
-        // identical for shared chapter numbers — Aniyomi then preserves read/bookmark
+        // identical for shared chapter numbers, so Aniyomi preserves read/bookmark
         // state (it matches chapters by URL). The legacy /extension/chapter/{id}/pages
         // route still works for any older library entries.
         setUrlWithoutDomain(baseUrl + chapterUrl(dto))
@@ -242,7 +242,7 @@ class MangaVault : HttpSource(), ConfigurableSource, MultiSourceCatalogSource, C
 
     /**
      * The domain-stripped chapter URL, and therefore this chapter's identity in the app.
-     * Source-INDEPENDENT and keyed by (manga, chapter_number) — see [chapterToSChapter].
+     * Source-INDEPENDENT and keyed by (manga, chapter_number); see [chapterToSChapter].
      */
     private fun chapterUrl(dto: ChapterDto): String =
         "/extension/manga/${dto.mangaId}/chapter/${chapterNumberPath(dto.chapterNumber)}/pages"

@@ -32,10 +32,10 @@ import java.util.Locale
 import java.util.TimeZone
 
 /**
- * MangaDex — a JSON-API source. Reference implementation: extend [HttpSource] (NOT the deprecated
+ * MangaDex: a JSON API source. Reference implementation: extend [HttpSource] (NOT the deprecated
  * ParsedHttpSource) and parse with the host's `Response.parseAs<T>()`. No CSS selectors to break.
  *
- * One APK, many language variants — see [MangaDexFactory]. Implements [ConfigurableSource] so each
+ * One APK, many language variants (see [MangaDexFactory]). Implements [ConfigurableSource] so each
  * per-language source carries its own cover-quality preference (the preference store is keyed on the
  * source id via [getSourcePreferences], and ids are per-language; see HttpSource.kt:57,87-91).
  */

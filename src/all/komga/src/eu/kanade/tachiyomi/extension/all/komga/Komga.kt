@@ -33,7 +33,7 @@ import java.util.Locale
 import java.util.TimeZone
 
 /**
- * Komga — a self-hosted manga server with a JSON REST API at `/api/v1/...`.
+ * Komga: a self-hosted manga server with a JSON REST API at `/api/v1/...`.
  *
  * There is NO hardcoded server. The base URL, username and password all come from user
  * preferences. With no server configured, [baseUrl] is empty and every request no-ops gracefully
@@ -55,7 +55,7 @@ class Komga : HttpSource(), ConfigurableSource {
     private val preferences: SharedPreferences by lazy { getSourcePreferences() }
 
     /**
-     * User-configured server root, normalized without a trailing slash. Empty when unconfigured —
+     * User-configured server root, normalized without a trailing slash. Empty when unconfigured:
      * every request path is a literal appended to this value, so an empty base means no real host.
      */
     override val baseUrl: String

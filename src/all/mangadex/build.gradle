@@ -12,7 +12,7 @@ apply from: "$rootDir/common.gradle"
 // `compileOnly` (the host app provides them at runtime), so those artifacts are NOT on the unit
 // test runtime classpath. Re-declare them as `testImplementation` here so DTO parsing tests can run
 // on the plain host JVM. `isReturnDefaultValues` lets Android-stubbed calls return defaults instead
-// of throwing — pure kotlinx-serialization decoding never touches a real device.
+// of throwing. Pure kotlinx-serialization decoding never touches a real device.
 android {
     testOptions {
         unitTests {
@@ -41,7 +41,7 @@ dependencies {
 }
 
 // core:common (pulled directly and transitively via source-api-android) declares a dependency on
-// Aniyomi:i18n — a host-only generated module that is NOT published to mavenLocal. The DTO parsing
+// Aniyomi:i18n, a host-only generated module that is NOT published to mavenLocal. The DTO parsing
 // tests never touch i18n, so drop it from the test classpaths to keep resolution fully offline.
 configurations.matching { it.name.toLowerCase().contains('unittest') }.configureEach {
     exclude group: 'Aniyomi', module: 'i18n'
