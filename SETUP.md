@@ -1,68 +1,66 @@
-# Setup & Build
+# Building
 
-This repo is a **scaffold**. Three things must be wired before `./gradlew assembleRelease` succeeds.
-None require touching the extension source — they are environment/coordinate wiring.
+You don't need any of this to use the extensions. It's only for building them yourself.
 
-## 1. Android SDK + JDK 17
+## Requirements
 
-- JDK 17 (Temurin) — already installed if you followed the app setup.
-- Android SDK with `platform-android-35` and `build-tools;35.0.0`. Set `ANDROID_HOME` and create
-  `local.properties` with `sdk.dir=<path>` (gitignored). `aapt2` from build-tools is also used by
-  `tools/create_repo.py`.
+- JDK 17
+- Android SDK with `platforms;android-35` and `build-tools;35.0.0`. Point `ANDROID_HOME` at it, or create a `local.properties` file with `sdk.dir=<path to the SDK>` (it's gitignored).
+- Python 3, for the scripts in `tools/`. Icon extraction also uses `aapt2` from build-tools, and Pillow if an icon is WEBP only.
 
-## 2. The `source-api` dependency (the load-bearing step)
+Extensions compile against `lib-stub`, a small copy of the app's source API, so you don't need the app's code to build them. The app provides the real classes at runtime.
 
-Extensions compile `compileOnly` against the app's `source-api`; the host app supplies the real
-classes at runtime. Pick ONE wiring and update `gradle/libs.versions.toml`:
-
-**Option A — JitPack from your app fork (simplest, fully FOSS).**
-Push `aniyomi-revived` to GitHub, then in `libs.versions.toml`:
-```toml
-source-api = { module = "com.github.YOUR_GH_USER.aniyomi-revived:source-api-android", version = "<commit-sha-or-tag>" }
-```
-JitPack builds the module on first request. Verify the exact published artifact id
-(`source-api-android` vs `source-api`) on jitpack.io after the first build.
-
-**Option B — Local Maven (offline / fastest iteration).**
-In the app tree, publish `:source-api` to mavenLocal (`./gradlew :source-api:publishToMavenLocal`),
-add `mavenLocal()` to `settings.gradle.kts` repositories, and point the catalog at that coordinate.
-
-**Option C — Composite build (monorepo-style).**
-`includeBuild("../aniyomi-revived")` in `settings.gradle.kts` and depend on the project. Tightest
-coupling; good if you keep app + extensions in lockstep.
-
-> Tachiyomi/keiyoushi historically used a tiny hand-written `extensions-lib` stub instead of the
-> full `source-api` so extensions don't drag in Compose/RxJava at compile time. If JitPack pulls too
-> much, create a minimal stub module exposing just the interfaces used here.
-
-## 3. Signing key
-
-```bash
-keytool -genkeypair -v -keystore ci.keystore -alias arext -keyalg RSA -keysize 2048 -validity 10000
-# Get the fingerprint that must go into repo.json:
-keytool -list -v -keystore ci.keystore -alias arext | grep -A1 SHA256:
-```
-Store the keystore (base64) and passwords as GitHub Actions secrets:
-`SIGNING_KEYSTORE_B64`, `SIGNING_STORE_PASSWORD`, `SIGNING_KEY_ALIAS`, `SIGNING_KEY_PASSWORD`.
-**Never commit the keystore** (it is gitignored).
-
-## 4. Build
+## Build
 
 ```bash
 ./gradlew :src:all:mangadex:assembleRelease   # one source
 ./gradlew assembleRelease                      # everything
-python3 tools/create_repo.py repo/apk repo/index.json repo/index.min.json
 ```
 
-## 5. Verify end-to-end
+The APKs end up in `src/<lang>/<name>/build/outputs/apk/release/`.
 
-Add `https://raw.githubusercontent.com/YOUR_GH_USER/aniyomi-revived-extensions/repo/index.min.json`
-in the app. Install MangaDex; confirm it loads as **trusted** (not "Untrusted") — that proves the
-`repo.json` fingerprint == your signing cert SHA-256, end to end.
+To generate the repo files the way CI does:
 
-## Known scaffold gaps (see tasks.md)
+```bash
+mkdir -p repo/apk repo/icon
+find . -path '*/build/outputs/apk/release/*.apk' -exec cp {} repo/apk/ \;
+python3 tools/extract_icons.py repo/apk repo/icon
+python3 tools/create_repo.py repo/apk repo/index.json repo/index.min.json --src-root .
+```
 
-- `tools/create_repo.py` emits `sources: []` — an **Inspector** step (loads the dex to read each
-  source's id/lang/name/baseUrl) is still needed for pre-install source listings.
-- Launcher icons are not yet extracted to `repo/icon/<pkg>.png`.
-- `src/en/examplemadara` is a placeholder pointing at `example.invalid` — replace or delete.
+## Tests
+
+The MangaDex and Madara unit tests run against the real `source-api` and `core:common` instead of the stub. Publish them from the app checkout first:
+
+```bash
+# in aniyomi-revived
+./gradlew --init-script publish-source-api.init.gradle.kts \
+  :source-api:publishToMavenLocal :core:common:publishToMavenLocal
+```
+
+Then run `./gradlew test` here.
+
+## Signing
+
+Release APKs are signed in CI with one key, stored as GitHub Actions secrets. Never commit a keystore (`*.keystore` and `*.jks` are gitignored).
+
+| Secret | Value |
+|---|---|
+| `SIGNING_KEYSTORE_B64` | The keystore, base64 encoded |
+| `SIGNING_STORE_PASSWORD` | Keystore password |
+| `SIGNING_KEY_ALIAS` | Key alias (`arext`) |
+| `SIGNING_KEY_PASSWORD` | Key password |
+
+CI computes the certificate's SHA-256 fingerprint (lowercase, no colons) and writes it into `repo.json`. The app trusts an extension only when its signing certificate matches that fingerprint, so changing the key means every user has to trust the repo again.
+
+To check the fingerprint of a local keystore:
+
+```bash
+keytool -list -v -keystore ci.keystore -alias arext | awk '/SHA256:/ {print $2}' | tr -d ':' | tr 'A-F' 'a-f'
+```
+
+To check a published APK:
+
+```bash
+apksigner verify --print-certs some-extension.apk
+```
