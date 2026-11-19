@@ -1,76 +1,60 @@
-# Aniyomi Revived — Extensions
+# Aniyomi Revived Extensions
 
-Open-source content **extensions** for the [aniyomi-revived](https://github.com/YOUR_GH_USER/aniyomi-revived) app.
-Each extension is an Android APK whose classes implement the app's `source-api`. Extensions are
-**not** bundled in the app — users add this repository and install the sources they want.
+Manga extensions for [Aniyomi Revived](https://github.com/Blackyfi/aniyomi-revived). Each extension is a small APK that adds one source to the app. Nothing here is bundled with the app: you add this repo once, then install only the sources you want.
 
-> **Status:** scaffold / work-in-progress. MangaDex (manga) is implemented as the reference source;
-> a Madara theme base is included for cheap, durable manhwa volume. See the roadmap below.
+Looking for anime? Those live in [aniyomi-revived-anime-extensions](https://github.com/Blackyfi/aniyomi-revived-anime-extensions).
 
-## Add this repo to the app
+## Adding the repo
 
-In the app: **Settings → Browse → Extension repos → Add**, then paste:
+In the app, go to **Settings → Browse → Extension repos → Add** and paste:
 
 ```
-https://raw.githubusercontent.com/YOUR_GH_USER/aniyomi-revived-extensions/repo/index.min.json
+https://raw.githubusercontent.com/Blackyfi/aniyomi-revived-extensions/repo/index.min.json
 ```
 
-(The app validates the URL ends in `/index.min.json`, fetches `repo.json` for the signing
-fingerprint, then lists extensions from `index.min.json`.)
+The extensions then show up under **Browse → Extensions**.
 
-## ⚠️ Trust model — read this
+## Sources
 
-Extensions run **inside the app process with the app's full permissions — there is no sandbox.**
-A trusted extension can read app data, use the shared network/cookie session, and run arbitrary
-code on your device. The app's only enforced guarantees are:
+| Source | Language | Notes |
+|---|---|---|
+| MangaDex | Multi | Uses the official MangaDex API |
+| Komga | Multi | For your own Komga server |
+| MangaVault | Multi | For your own MangaVault server |
+| WeebCentral | English | |
+| Komik Cast | Indonesian | |
+| Manhwa Indo | Indonesian | |
 
-1. **Unsigned APKs are rejected.**
-2. An extension is **trusted** iff it was signed by **this repo's single signing key**, whose
-   SHA-256 fingerprint is published in [`repo.json`](repo.json.template) and below.
+The repo prefers sources that rarely break: sites with a real API, self-hosted servers, and sites built on shared themes like Madara or MangaThemesia, where one fix repairs many sites at once. Aggregators that keep changing domains and sites behind heavy Cloudflare checks are left out on purpose.
 
-**Therefore the human review of every line we ship _is_ the security boundary.** We commit to:
-- Mandatory review of **every network call** — requests may only target domains that are literals
-  in the source (or the user-overridable `baseUrl`). No URLs assembled from decoded/decrypted data.
-- **Zero obfuscation**: no base64/hex/xor decode-then-run, no reflection, no dynamic dex/code download.
-- **Build-from-source-only CI**: the published `repo` branch is a deterministic function of audited
-  `main` source. We never accept prebuilt APKs.
-- **One signing key**, pinned via `repo.json`; rotation is a rare, announced event.
+## Is it safe?
 
-**Our signing key fingerprint (verify before trusting):** `PUBLISH_AFTER_FIRST_CI_RUN`
+Extensions run inside the app with the same permissions as the app itself. Android doesn't sandbox them, so an extension can do anything the app can. That's why every change here is reviewed by hand before it ships:
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full review policy and [SETUP.md](SETUP.md) to build.
+- Sources only talk to the site they're for (or the server address you set yourself).
+- No obfuscated code, no reflection and no code downloaded at runtime.
+- APKs are built by GitHub Actions straight from this repository, never uploaded by hand.
 
-## Repository structure
-
-Two branches:
-- **`main`** — human-reviewed source (this tree).
-- **`repo`** — CI-generated artifacts the app consumes: `index.min.json`, `repo.json`, `apk/`, `icon/`.
+Every extension is signed with the same key. The app reads its fingerprint from [`repo.json`](https://raw.githubusercontent.com/Blackyfi/aniyomi-revived-extensions/repo/repo.json) and only trusts extensions that match it:
 
 ```
-lib-multisrc/<theme>/   shared theme base classes (one fix repairs many sites) — e.g. madara
-src/<lang>/<name>/      one Gradle module per source — e.g. src/all/mangadex
-common.gradle           convention script: ext{} → loader-valid signed APK
-tools/create_repo.py    generates the index from built APKs
-.github/workflows/      build → sign → index → publish to the repo branch
+e4bbc0829bf2b1ef674b4772407c93898253620c5bebca3b3ddb372b6863ca9b
 ```
 
-## Roadmap (durability-first)
+## How it's organised
 
-Prioritizes API-backed and theme-backed sources that rarely break, per the maintenance analysis
-in the app's `PROFILE_REPORT.md`:
+- `main` has the source code, `repo` has what the app downloads (`index.min.json`, `repo.json`, the APKs and icons). CI rebuilds `repo` on every push to `main`.
+- `src/<lang>/<name>/` holds one source per folder.
+- `lib-multisrc/<theme>/` holds the shared theme code (Madara, MangaThemesia).
+- `lib-stub/` is a compile-only copy of the app's source API, so extensions build without the whole app.
+- `tools/` has the scripts that build the index and extract icons.
 
-1. **MangaDex** — first-party JSON API ✅ (implemented)
-2. **Madara theme base** + curated stable instances (manhwa volume) — base ✅, add sites
-3. **MangaThemesia theme base** — second-largest cluster
-4. **Self-hosted** (Komga / Suwayomi) — zero external breakage risk
-5. **WeebCentral** — most popular reliable EN scraper
-6. **AllAnime** (anime) — API-based
+To build it yourself, see [SETUP.md](SETUP.md). To add or fix a source, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Deliberately **deferred/excluded**: domain-hopping aggregators (Manganato/Mangakakalot family),
-heavy anti-bot/Cloudflare sources (MangaFire, GogoAnime), and dead sites (Comick). These break
-constantly regardless of who maintains them.
+## Disclaimer
+
+This repository isn't affiliated with any of the content providers above, and it hosts no content.
 
 ## License
 
-[Apache License 2.0](LICENSE) — same as the app. Individual sources are unaffiliated with the
-content providers; this repository hosts no content.
+[Apache License 2.0](LICENSE), same as the app.
