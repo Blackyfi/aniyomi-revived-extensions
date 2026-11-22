@@ -1,0 +1,8 @@
+# Keep the CI actions current. Gradle dependencies are left out on purpose: the
+# sources track upstream, and per-library PRs would fight those merges.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
